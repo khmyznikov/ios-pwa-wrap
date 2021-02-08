@@ -10,6 +10,8 @@ Makes possible of publishing PWA to Apple Store like TWA from Google. Firebase c
 >- Create new project
 >- Generate and download **GoogleService-Info.plist**
 >- Copy it to ``/squoosh-app`` folder
+## Change Squoosh to your website
+> This app was setup to squoosh pwa website just for example. You should change this settings to yours. Don't forget about **WKAppBoundDomains** in **Info.plist**
 # JS Features
 ## Push topic subscribe
 ```javascript
