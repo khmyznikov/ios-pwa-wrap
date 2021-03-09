@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CD89F888237E9D9200C436A1"
-               BuildableName = "Squoosh.app"
-               BlueprintName = "squoosh-app"
-               ReferencedContainer = "container:squoosh-app.xcodeproj">
+               BuildableName = "PWAShell.app"
+               BlueprintName = "pwa-shell"
+               ReferencedContainer = "container:pwa-shell.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CD89F888237E9D9200C436A1"
-            BuildableName = "Squoosh.app"
-            BlueprintName = "squoosh-app"
-            ReferencedContainer = "container:squoosh-app.xcodeproj">
+            BuildableName = "PWAShell.app"
+            BlueprintName = "pwa-shell"
+            ReferencedContainer = "container:pwa-shell.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CD89F888237E9D9200C436A1"
-            BuildableName = "Squoosh.app"
-            BlueprintName = "squoosh-app"
-            ReferencedContainer = "container:squoosh-app.xcodeproj">
+            BuildableName = "PWAShell.app"
+            BlueprintName = "pwa-shell"
+            ReferencedContainer = "container:pwa-shell.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  squoosh-app
+//  pwa-shell
 //
 //  Created by Gleb Khmyznikov on 11/15/19.
 //  

@@ -1,6 +1,6 @@
 //
 //  PushNotifications.swift
-//  squoosh-app
+//  pwa-shell
 //
 //  Created by Gleb Khmyznikov on 11/23/19.
 //  

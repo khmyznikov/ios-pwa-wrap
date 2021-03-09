@@ -6,7 +6,7 @@
 	<string>production</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:squoosh.app</string>
+		<string>applinks:pwa.shell</string>
 	</array>
 </dict>
 </plist>

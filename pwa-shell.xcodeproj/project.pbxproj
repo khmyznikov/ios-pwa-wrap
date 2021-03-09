@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3F2BF02AF3291D7D40870C95 /* Pods_squoosh_app.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C196B737B11B2B6C707CEB90 /* Pods_squoosh_app.framework */; };
 		592A3F1725CFF93D0062B783 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 592A3F1625CFF93D0062B783 /* GoogleService-Info.plist */; };
 		595F23A525CEFBFE0053416C /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595F239A25CEFBFD0053416C /* Settings.swift */; };
 		595F23A625CEFBFE0053416C /* Entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 595F239B25CEFBFD0053416C /* Entitlements */; };
@@ -20,26 +19,27 @@
 		595F23AF25CEFBFE0053416C /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595F23A425CEFBFE0053416C /* WebView.swift */; };
 		CDC0FE292388222C002C8D56 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDC0FE252388222B002C8D56 /* Main.storyboard */; };
 		CDC0FE2A2388222C002C8D56 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDC0FE272388222B002C8D56 /* LaunchScreen.storyboard */; };
+		E1E260C850014D6B34B487B0 /* Pods_pwa_shell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE9D7FFB2FBE6EEBCA807B6A /* Pods_pwa_shell.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4C1C2162A8048FDF52B2A9D0 /* Pods-squoosh-app.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-squoosh-app.release.xcconfig"; path = "Target Support Files/Pods-squoosh-app/Pods-squoosh-app.release.xcconfig"; sourceTree = "<group>"; };
-		592A3F1625CFF93D0062B783 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "squoosh-app/Entitlements/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		59333BAA25CFF706003392A4 /* Squoosh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Squoosh.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		595F239A25CEFBFD0053416C /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Settings.swift; path = "squoosh-app/Settings.swift"; sourceTree = "<group>"; };
-		595F239B25CEFBFD0053416C /* Entitlements */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Entitlements; path = "squoosh-app/Entitlements"; sourceTree = "<group>"; };
-		595F239C25CEFBFD0053416C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "squoosh-app/Assets.xcassets"; sourceTree = "<group>"; };
-		595F239D25CEFBFD0053416C /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SceneDelegate.swift; path = "squoosh-app/SceneDelegate.swift"; sourceTree = "<group>"; };
-		595F239F25CEFBFE0053416C /* PushNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PushNotifications.swift; path = "squoosh-app/PushNotifications.swift"; sourceTree = "<group>"; };
-		595F23A025CEFBFE0053416C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "squoosh-app/Info.plist"; sourceTree = "<group>"; };
-		595F23A125CEFBFE0053416C /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = "squoosh-app/ViewController.swift"; sourceTree = "<group>"; };
-		595F23A225CEFBFE0053416C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "squoosh-app/AppDelegate.swift"; sourceTree = "<group>"; };
-		595F23A325CEFBFE0053416C /* Printer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Printer.swift; path = "squoosh-app/Printer.swift"; sourceTree = "<group>"; };
-		595F23A425CEFBFE0053416C /* WebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebView.swift; path = "squoosh-app/WebView.swift"; sourceTree = "<group>"; };
-		BEE8E5C625AE96C07F8AADED /* Pods-squoosh-app.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-squoosh-app.debug.xcconfig"; path = "Target Support Files/Pods-squoosh-app/Pods-squoosh-app.debug.xcconfig"; sourceTree = "<group>"; };
-		C196B737B11B2B6C707CEB90 /* Pods_squoosh_app.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_squoosh_app.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CDC0FE262388222B002C8D56 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "squoosh-app/Base.lproj/Main.storyboard"; sourceTree = "<group>"; };
-		CDC0FE282388222B002C8D56 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "squoosh-app/Base.lproj/LaunchScreen.storyboard"; sourceTree = "<group>"; };
+		4C1C2162A8048FDF52B2A9D0 /* Pods-pwa-shell.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pwa-shell.release.xcconfig"; path = "Target Support Files/Pods-pwa-shell/Pods-pwa-shell.release.xcconfig"; sourceTree = "<group>"; };
+		592A3F1625CFF93D0062B783 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "pwa-shell/Entitlements/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		59333BAA25CFF706003392A4 /* pwa.shell */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pwa.shell; sourceTree = BUILT_PRODUCTS_DIR; };
+		595F239A25CEFBFD0053416C /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Settings.swift; path = "pwa-shell/Settings.swift"; sourceTree = "<group>"; };
+		595F239B25CEFBFD0053416C /* Entitlements */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Entitlements; path = "pwa-shell/Entitlements"; sourceTree = "<group>"; };
+		595F239C25CEFBFD0053416C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "pwa-shell/Assets.xcassets"; sourceTree = "<group>"; };
+		595F239D25CEFBFD0053416C /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SceneDelegate.swift; path = "pwa-shell/SceneDelegate.swift"; sourceTree = "<group>"; };
+		595F239F25CEFBFE0053416C /* PushNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PushNotifications.swift; path = "pwa-shell/PushNotifications.swift"; sourceTree = "<group>"; };
+		595F23A025CEFBFE0053416C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "pwa-shell/Info.plist"; sourceTree = "<group>"; };
+		595F23A125CEFBFE0053416C /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = "pwa-shell/ViewController.swift"; sourceTree = "<group>"; };
+		595F23A225CEFBFE0053416C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "pwa-shell/AppDelegate.swift"; sourceTree = "<group>"; };
+		595F23A325CEFBFE0053416C /* Printer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Printer.swift; path = "pwa-shell/Printer.swift"; sourceTree = "<group>"; };
+		595F23A425CEFBFE0053416C /* WebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebView.swift; path = "pwa-shell/WebView.swift"; sourceTree = "<group>"; };
+		BE9D7FFB2FBE6EEBCA807B6A /* Pods_pwa_shell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pwa_shell.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEE8E5C625AE96C07F8AADED /* Pods-pwa-shell.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pwa-shell.debug.xcconfig"; path = "Target Support Files/Pods-pwa-shell/Pods-pwa-shell.debug.xcconfig"; sourceTree = "<group>"; };
+		CDC0FE262388222B002C8D56 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "pwa-shell/Base.lproj/Main.storyboard"; sourceTree = "<group>"; };
+		CDC0FE282388222B002C8D56 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "pwa-shell/Base.lproj/LaunchScreen.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,7 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F2BF02AF3291D7D40870C95 /* Pods_squoosh_app.framework in Frameworks */,
+				E1E260C850014D6B34B487B0 /* Pods_pwa_shell.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,8 +57,8 @@
 		30FCACC6A7BF53CD6D9CF6C0 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				BEE8E5C625AE96C07F8AADED /* Pods-squoosh-app.debug.xcconfig */,
-				4C1C2162A8048FDF52B2A9D0 /* Pods-squoosh-app.release.xcconfig */,
+				BEE8E5C625AE96C07F8AADED /* Pods-pwa-shell.debug.xcconfig */,
+				4C1C2162A8048FDF52B2A9D0 /* Pods-pwa-shell.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -66,7 +66,7 @@
 		90E46E861CB86F5FAF46BED9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C196B737B11B2B6C707CEB90 /* Pods_squoosh_app.framework */,
+				BE9D7FFB2FBE6EEBCA807B6A /* Pods_pwa_shell.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -89,16 +89,16 @@
 				CDC0FE252388222B002C8D56 /* Main.storyboard */,
 				30FCACC6A7BF53CD6D9CF6C0 /* Pods */,
 				90E46E861CB86F5FAF46BED9 /* Frameworks */,
-				59333BAA25CFF706003392A4 /* Squoosh.app */,
+				59333BAA25CFF706003392A4 /* pwa.shell */,
 			);
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CD89F888237E9D9200C436A1 /* squoosh-app */ = {
+		CD89F888237E9D9200C436A1 /* pwa-shell */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CD89F89D237E9D9300C436A1 /* Build configuration list for PBXNativeTarget "squoosh-app" */;
+			buildConfigurationList = CD89F89D237E9D9300C436A1 /* Build configuration list for PBXNativeTarget "pwa-shell" */;
 			buildPhases = (
 				E07DC62CDB59F65280F7057D /* [CP] Check Pods Manifest.lock */,
 				CD89F885237E9D9200C436A1 /* Sources */,
@@ -110,9 +110,9 @@
 			);
 			dependencies = (
 			);
-			name = "squoosh-app";
-			productName = "squoosh-app";
-			productReference = 59333BAA25CFF706003392A4 /* Squoosh.app */;
+			name = "pwa-shell";
+			productName = "pwa-shell";
+			productReference = 59333BAA25CFF706003392A4 /* pwa.shell */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -131,7 +131,7 @@
 					};
 				};
 			};
-			buildConfigurationList = CD89F884237E9D9200C436A1 /* Build configuration list for PBXProject "squoosh-app" */;
+			buildConfigurationList = CD89F884237E9D9200C436A1 /* Build configuration list for PBXProject "pwa-shell" */;
 			compatibilityVersion = "Xcode 11.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -144,7 +144,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CD89F888237E9D9200C436A1 /* squoosh-app */,
+				CD89F888237E9D9200C436A1 /* pwa-shell */,
 			);
 		};
 /* End PBXProject section */
@@ -171,15 +171,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-squoosh-app/Pods-squoosh-app-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-pwa-shell/Pods-pwa-shell-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-squoosh-app/Pods-squoosh-app-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-pwa-shell/Pods-pwa-shell-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-squoosh-app/Pods-squoosh-app-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-pwa-shell/Pods-pwa-shell-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E07DC62CDB59F65280F7057D /* [CP] Check Pods Manifest.lock */ = {
@@ -197,7 +197,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-squoosh-app-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-pwa-shell-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -294,7 +294,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -351,7 +351,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -365,22 +365,22 @@
 		};
 		CD89F89E237E9D9300C436A1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BEE8E5C625AE96C07F8AADED /* Pods-squoosh-app.debug.xcconfig */;
+			baseConfigurationReference = BEE8E5C625AE96C07F8AADED /* Pods-pwa-shell.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = NO;
-				CODE_SIGN_ENTITLEMENTS = "squoosh-app/Entitlements/Entitlements.plist";
+				CODE_SIGN_ENTITLEMENTS = "pwa-shell/Entitlements/Entitlements.plist";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = "squoosh-app/Info.plist";
+				INFOPLIST_FILE = "pwa-shell/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.squoosh.app;
-				PRODUCT_NAME = Squoosh;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pwa.shell;
+				PRODUCT_NAME = PWAShell;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -389,22 +389,22 @@
 		};
 		CD89F89F237E9D9300C436A1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4C1C2162A8048FDF52B2A9D0 /* Pods-squoosh-app.release.xcconfig */;
+			baseConfigurationReference = 4C1C2162A8048FDF52B2A9D0 /* Pods-pwa-shell.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = NO;
-				CODE_SIGN_ENTITLEMENTS = "squoosh-app/Entitlements/Entitlements.plist";
+				CODE_SIGN_ENTITLEMENTS = "pwa-shell/Entitlements/Entitlements.plist";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = "squoosh-app/Info.plist";
+				INFOPLIST_FILE = "pwa-shell/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.squoosh.app;
-				PRODUCT_NAME = Squoosh;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pwa.shell;
+				PRODUCT_NAME = PWAShell;
 				SWIFT_OPTIMIZATION_LEVEL = "-Osize";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -414,7 +414,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CD89F884237E9D9200C436A1 /* Build configuration list for PBXProject "squoosh-app" */ = {
+		CD89F884237E9D9200C436A1 /* Build configuration list for PBXProject "pwa-shell" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CD89F89B237E9D9300C436A1 /* Debug */,
@@ -423,7 +423,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CD89F89D237E9D9300C436A1 /* Build configuration list for PBXNativeTarget "squoosh-app" */ = {
+		CD89F89D237E9D9300C436A1 /* Build configuration list for PBXNativeTarget "pwa-shell" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CD89F89E237E9D9300C436A1 /* Debug */,

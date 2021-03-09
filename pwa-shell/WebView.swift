@@ -1,6 +1,6 @@
 //
 //  WebViewConfig.swift
-//  squoosh-app
+//  pwa-shell
 //
 //  Created by Gleb Khmyznikov on 11/22/19.
 //  

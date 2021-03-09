@@ -4,14 +4,14 @@ Makes possible of publishing PWA to Apple Store like TWA from Google. Firebase c
 ## Install Pods references
 >- Install **CocoaPods** to the system
 >- Go to Repo folder and do in terminal ``pod install``
->- Open file **squoosh-app.xcworkspace**
+>- Open file **pwa-shell.xcworkspace**
 ## Generate Firebase keys
 >- Go https://console.firebase.google.com/
 >- Create new project
 >- Generate and download **GoogleService-Info.plist**
->- Copy it to ``/squoosh-app`` folder
-## Change Squoosh to your website
-> This app was setup to squoosh pwa website just for example. You should change this settings to yours. Don't forget about **WKAppBoundDomains** in **Info.plist**
+>- Copy it to ``/pwa-shell`` folder
+## Change to your website
+> This app was setup to my website just for example. You should change this settings to yours. Don't forget about **WKAppBoundDomains** in **Info.plist**
 # JS Features
 ## Push topic subscribe
 ```javascript
@@ -40,5 +40,6 @@ print = function() {
     window.print();
 }
 ```
+
 ***
 Distributed as is, no concrete plans for improvements.
