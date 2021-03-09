@@ -16,18 +16,27 @@ class ViewController: UIViewController, WKNavigationDelegate {
     @IBOutlet weak var connectionProblemView: UIImageView!
     @IBOutlet weak var webviewView: UIView!
     var webView: WKWebView!
+    var newWebviewPopupWindow: WKWebView?
+    
     var statusBarView: UIView!
+    var toolbarView: UIToolbar!
+    
+
     
     var htmlIsLoaded = false;
     
-    override var preferredStatusBarStyle : UIStatusBarStyle {
-        return statusBarStyle;
-    }
+    
+//    override var preferredStatusBarStyle : UIStatusBarStyle {
+//        return statusBarStyle;
+//    }
 
     override func viewDidLoad() {
-        super.viewDidLoad();
-        initWebView();
-        loadRootUrl();
+        super.viewDidLoad()
+        initWebView()
+        initToolbarView()
+        loadRootUrl()
+        
+//        self.view.backgroundColor = hexStringToUIColor(hex: statusBarColor)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification , object: nil)
         
@@ -41,13 +50,31 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView = createWebView(container: webviewView, WKSMH: self, WKND: self, NSO: self, VC: self)
         webviewView.addSubview(webView);
         
-        if #available(iOS 11, *) {
-            statusBarView = createStatusBar(container: webviewView)
-            showStatusBar(true)
-        }
+        webView.uiDelegate = self;
+
+        
+        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
+        
+        
+//        if #available(iOS 11, *) {
+//            statusBarView = createStatusBar(container: webviewView)
+//            showStatusBar(true)
+//        }
+    }
+    func initToolbarView() {
+        toolbarView = UIToolbar(frame: CGRect(x: 0, y: 0, width: webviewView.frame.width, height: 60))
+        toolbarView.autoresizingMask = [.flexibleTopMargin, .flexibleRightMargin, .flexibleWidth]
+        
+        let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let close = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(loadRootUrl))
+        toolbarView.setItems([flex,close], animated: true)
+        
+        toolbarView.isHidden = true
+        
+        webviewView.addSubview(toolbarView)
     }
     
-    func loadRootUrl() {
+    @objc func loadRootUrl() {
         webView.load(URLRequest(url: rootUrl));
     }
     
@@ -96,6 +123,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
                     if (progress >= 0.3) { self.animateConnectionProblem(false); }
                     
                     self.setProgress(progress, true);
+            
         }
     }
     
