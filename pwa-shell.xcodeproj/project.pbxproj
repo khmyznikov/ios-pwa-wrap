@@ -25,7 +25,7 @@
 /* Begin PBXFileReference section */
 		4C1C2162A8048FDF52B2A9D0 /* Pods-pwa-shell.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pwa-shell.release.xcconfig"; path = "Target Support Files/Pods-pwa-shell/Pods-pwa-shell.release.xcconfig"; sourceTree = "<group>"; };
 		592A3F1625CFF93D0062B783 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "pwa-shell/Entitlements/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		59333BAA25CFF706003392A4 /* pwa.shell */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pwa.shell; sourceTree = BUILT_PRODUCTS_DIR; };
+		59333BAA25CFF706003392A4 /* pwa.shell */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = pwa.shell; path = PWAShell.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		595F239A25CEFBFD0053416C /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Settings.swift; path = "pwa-shell/Settings.swift"; sourceTree = "<group>"; };
 		595F239B25CEFBFD0053416C /* Entitlements */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Entitlements; path = "pwa-shell/Entitlements"; sourceTree = "<group>"; };
 		595F239C25CEFBFD0053416C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "pwa-shell/Assets.xcassets"; sourceTree = "<group>"; };

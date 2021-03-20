@@ -25,12 +25,8 @@ func createWebView(container: UIView, WKSMH: WKScriptMessageHandler, WKND: WKNav
         
     }
     config.preferences.javaScriptCanOpenWindowsAutomatically = true
-
-    let winScene = UIApplication.shared.connectedScenes.first
-    let windowScene = winScene as! UIWindowScene
-    let statusBarHeight = windowScene.statusBarManager?.statusBarFrame.height ?? 0
     
-    let webView = WKWebView(frame: CGRect(x: 0, y: statusBarHeight, width: container.frame.width, height: container.frame.height - statusBarHeight), configuration: config)
+    let webView = WKWebView(frame: calcWebviewFrame(webviewView: container, toolbarView: nil), configuration: config)
     
     setCustomCookie(webView: webView)
 
@@ -64,6 +60,19 @@ func setCustomCookie(webView: WKWebView) {
 
     webView.configuration.websiteDataStore.httpCookieStore.setCookie(_platformCookie)
 
+}
+
+func calcWebviewFrame(webviewView: UIView, toolbarView: UIToolbar?) -> CGRect{
+    if ((toolbarView) != nil) {
+        return CGRect(x: 0, y: toolbarView!.frame.height, width: webviewView.frame.width, height: webviewView.frame.height - toolbarView!.frame.height)
+    }
+    else {
+        let winScene = UIApplication.shared.connectedScenes.first
+        let windowScene = winScene as! UIWindowScene
+        let statusBarHeight = windowScene.statusBarManager?.statusBarFrame.height ?? 0
+        
+        return CGRect(x: 0, y: statusBarHeight, width: webviewView.frame.width, height: webviewView.frame.height - statusBarHeight)
+    }
 }
 
 //func createStatusBar(container: UIView) -> UIView {
@@ -126,11 +135,19 @@ extension ViewController: WKUIDelegate {
                 if (requestHost.range(of: allowedOrigin) != nil) {
                     // Open in main webview
                     decisionHandler(.allow)
-                    toolbarView.isHidden = true
+                    if (!toolbarView.isHidden) {
+                        toolbarView.isHidden = true
+                        webView.frame = calcWebviewFrame(webviewView: webviewView, toolbarView: nil)
+                    }
+                    
                 } else {
                     if (requestHost.range(of: authOrigin_1) != nil || requestHost.range(of: authOrigin_2) != nil) {
                         decisionHandler(.allow)
-                        toolbarView.isHidden = false
+                        if (toolbarView.isHidden) {
+                            toolbarView.isHidden = false
+                            webView.frame = calcWebviewFrame(webviewView: webviewView, toolbarView: toolbarView)
+                        }
+
                         return
                     }
                     else { decisionHandler(.cancel) }

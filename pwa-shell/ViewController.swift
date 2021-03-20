@@ -61,15 +61,28 @@ class ViewController: UIViewController, WKNavigationDelegate {
 //            showStatusBar(true)
 //        }
     }
-    func initToolbarView() {
-        toolbarView = UIToolbar(frame: CGRect(x: 0, y: 0, width: webviewView.frame.width, height: 60))
-        toolbarView.autoresizingMask = [.flexibleTopMargin, .flexibleRightMargin, .flexibleWidth]
+    
+    func createToolbarView() -> UIToolbar{
+        let winScene = UIApplication.shared.connectedScenes.first
+        let windowScene = winScene as! UIWindowScene
+        let statusBarHeight = windowScene.statusBarManager?.statusBarFrame.height ?? 60
+        
+        let toolbarView = UIToolbar(frame: CGRect(x: 0, y: 0, width: webviewView.frame.width, height: 0))
+        toolbarView.sizeToFit()
+        toolbarView.frame = CGRect(x: 0, y: 0, width: webviewView.frame.width, height: toolbarView.frame.height + statusBarHeight)
+//        toolbarView.autoresizingMask = [.flexibleTopMargin, .flexibleRightMargin, .flexibleWidth]
         
         let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let close = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(loadRootUrl))
-        toolbarView.setItems([flex,close], animated: true)
+        toolbarView.setItems([close,flex], animated: true)
         
         toolbarView.isHidden = true
+        
+        return toolbarView
+    }
+    
+    func initToolbarView() {
+        toolbarView =  createToolbarView()
         
         webviewView.addSubview(toolbarView)
     }
