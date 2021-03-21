@@ -19,7 +19,8 @@ let rootUrl = URL(string: "https://www.khmyznikov.com/ms-auth-test/")!
 let allowedOrigin = "www.khmyznikov.com"
 let authOrigin_1 = "login.microsoftonline.com"
 let authOrigin_2 = "login.live.com"
-
+let authOrigin_3 = "account.live.com"
+let authOrigin_4 = "tomayac.github.io"
 
 
 let platformCookie = Cookie(name: "app-platform", value: "ios/ipados")

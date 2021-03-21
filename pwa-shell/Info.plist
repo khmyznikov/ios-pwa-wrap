@@ -91,7 +91,9 @@
 	<true/>
 	<key>WKAppBoundDomains</key>
 	<array>
+		<string>tomayac.github.io</string>
 		<string>login.live.com</string>
+		<string>account.live.com</string>
 		<string>login.microsoftonline.com</string>
 		<string>www.khmyznikov.com</string>
 	</array>

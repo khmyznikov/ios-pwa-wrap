@@ -141,7 +141,7 @@ extension ViewController: WKUIDelegate {
                     }
                     
                 } else {
-                    if (requestHost.range(of: authOrigin_1) != nil || requestHost.range(of: authOrigin_2) != nil) {
+                    if (requestHost.range(of: authOrigin_1) != nil || requestHost.range(of: authOrigin_2) != nil || requestHost.range(of: authOrigin_3) != nil || requestHost.range(of: authOrigin_4) != nil) {
                         decisionHandler(.allow)
                         if (toolbarView.isHidden) {
                             toolbarView.isHidden = false
