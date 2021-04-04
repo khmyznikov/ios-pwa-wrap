@@ -178,8 +178,11 @@ extension ViewController: WKScriptMessageHandler {
         if message.name == "print" {
             printView(webView: webView)
         }
-        if message.name == "push" {
+        if message.name == "push-subscribe" {
             handleSubscribeTouch(message: message)
+        }
+        if message.name == "push-permission" {
+            handlePushPermission(webView: webView)
         }
   }
 }

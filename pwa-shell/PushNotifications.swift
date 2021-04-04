@@ -72,6 +72,48 @@ func parseSubscribeMessage(message: WKScriptMessage) -> [SubscribeMessage] {
     return subscribeMessages
 }
 
+func returnPermissionState(webView: WKWebView, isGranted: Bool){
+    DispatchQueue.main.async(execute: {
+        if (isGranted){
+            webView.evaluateJavaScript("this.dispatchEvent(new CustomEvent('push-permission', { detail: 'granted' }))")
+        }
+        else {
+            webView.evaluateJavaScript("this.dispatchEvent(new CustomEvent('push-permission', { detail: 'denied' }))")
+        }
+    })
+}
+func handlePushPermission(webView: WKWebView) {
+    let application = UIApplication.shared
+    UNUserNotificationCenter.current().getNotificationSettings () { settings in
+            switch settings.authorizationStatus {
+            case .notDetermined:
+                let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+                UNUserNotificationCenter.current().requestAuthorization(
+                    options: authOptions,
+                    completionHandler: { (success, error) in
+                        if error == nil {
+                            if success == true {
+                                returnPermissionState(webView: webView, isGranted: true)
+                                application.registerForRemoteNotifications()
+                            }
+                            else {
+                                returnPermissionState(webView: webView,isGranted: false)
+                            }
+                        }
+                        else {
+                            returnPermissionState(webView: webView, isGranted: false)
+                        }
+                    }
+                )
+            case .denied:
+                returnPermissionState(webView: webView, isGranted: false)
+            case .authorized, .ephemeral, .provisional:
+                returnPermissionState(webView: webView, isGranted: true)
+            @unknown default:
+                return;
+            }
+        }
+}
 
 //    @IBAction func handleLogTokenTouch(_ sender: UIButton) {
 //      // [START log_fcm_reg_token]
