@@ -71,5 +71,4 @@ printView = function() {
 
 ***
 ## TO DO:
-- Push API request from JS
 - More ellegant solution for toolbar and statusbar
