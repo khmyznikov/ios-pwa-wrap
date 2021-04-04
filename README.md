@@ -3,7 +3,7 @@ Makes possible of publishing PWA to Apple Store like TWA from Google. Firebase c
 # Gallery
 | Launch process | Native Push API request | MSAL Auth Redirect |
 |---|---|---|
-|![Launch process](https://user-images.githubusercontent.com/6115884/111901850-68c73c80-8a4b-11eb-840d-64e80020a034.gif)|<img width="549" alt="Push Api Request" src="https://user-images.githubusercontent.com/6115884/111901211-9c07cc80-8a47-11eb-9fa9-46381d0c25c3.png">|<img width="549" alt="Auth Redirect Example" src="https://user-images.githubusercontent.com/6115884/111901222-ab871580-8a47-11eb-9ac9-e5fc877ba1b9.png">|
+|![Launch process](https://user-images.githubusercontent.com/6115884/111901850-68c73c80-8a4b-11eb-840d-64e80020a034.gif)|![Native Push API request](https://user-images.githubusercontent.com/6115884/113514430-33f0d480-9577-11eb-9fc5-09fda0ee44e6.gif)|<img width="549" alt="Auth Redirect Example" src="https://user-images.githubusercontent.com/6115884/111901222-ab871580-8a47-11eb-9ac9-e5fc877ba1b9.png">|
 
 
 # Quick start
