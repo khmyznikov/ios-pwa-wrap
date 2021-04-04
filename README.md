@@ -19,14 +19,36 @@ Makes possible of publishing PWA to Apple Store like TWA from Google. Firebase c
 ## Change to your website
 > This app was setup to my website just for example. You should change this settings to yours. Don't forget about **WKAppBoundDomains** in **Info.plist**
 # JS Features
+## Push permission request
+```javascript
+if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers['push-permission']) {
+  window.iOSPushCapability = true;
+}
+pushRequest = function(){
+  if (window.iOSPushCapability)
+    window.webkit.messageHandlers['push-permission'].postMessage('push-permission');
+}
+window.addEventListener('push-permission', (message) => {
+  if (message && message.detail){
+    switch (message.detail) {
+      case 'granted':
+        // permission granted
+        break;
+      default:
+        // permission denied
+        break;
+    }
+  }
+});
+```
 ## Push topic subscribe
 ```javascript
-if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.push) {
+if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers['push-subscribe']) {
   window.iOSPushCapability = true;
 }
 mobilePushSubscribe = function(topic, eventValue, unsubscribe?) {
   if (window.iOSPushCapability) {
-    window.webkit.messageHandlers.push.postMessage(JSON.stringify({
+    window.webkit.messageHandlers['push-subscribe'].postMessage(JSON.stringify({
       topic: pushTopic, // topic name to subscribe/unsubscribe
       eventValue, // user object: name, email, id, etc.
       unsubscribe // true/false
@@ -39,7 +61,7 @@ mobilePushSubscribe = function(topic, eventValue, unsubscribe?) {
 if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.print) {
   window.iOSPrintCapability = true;
 }
-print = function() {
+printView = function() {
   if (window.iOSPrintCapability)
     window.webkit.messageHandlers.print.postMessage('print');
   else
