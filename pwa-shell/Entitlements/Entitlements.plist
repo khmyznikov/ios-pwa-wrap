@@ -6,7 +6,7 @@
 	<string>production</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:pwa.shell</string>
+		<string>applinks:khmyznikov.com</string>
 	</array>
 </dict>
 </plist>

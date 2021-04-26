@@ -94,7 +94,9 @@ func handlePushPermission(webView: WKWebView) {
                         if error == nil {
                             if success == true {
                                 returnPermissionState(webView: webView, isGranted: true)
-                                application.registerForRemoteNotifications()
+                                DispatchQueue.main.async {
+                                  UIApplication.shared.registerForRemoteNotifications()
+                                }
                             }
                             else {
                                 returnPermissionState(webView: webView,isGranted: false)
