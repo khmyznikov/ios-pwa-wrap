@@ -9,14 +9,15 @@
 import UIKit
 import WebKit
 
+var webView: WKWebView! = nil
+
 class ViewController: UIViewController, WKNavigationDelegate {
 
     @IBOutlet weak var loadingView: UIView!
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var connectionProblemView: UIImageView!
     @IBOutlet weak var webviewView: UIView!
-    var webView: WKWebView!
-    var newWebviewPopupWindow: WKWebView?
+    //    var newWebviewPopupWindow: WKWebView?
     
     var statusBarView: UIView!
     var toolbarView: UIToolbar!
@@ -43,17 +44,17 @@ class ViewController: UIViewController, WKNavigationDelegate {
     }
     
     @objc func keyboardWillHide(_ notification: NSNotification) {
-        webView.setNeedsLayout()
+        PWAShell.webView.setNeedsLayout()
     }
     
     func initWebView() {
-        webView = createWebView(container: webviewView, WKSMH: self, WKND: self, NSO: self, VC: self)
-        webviewView.addSubview(webView);
+        PWAShell.webView = createWebView(container: webviewView, WKSMH: self, WKND: self, NSO: self, VC: self)
+        webviewView.addSubview(PWAShell.webView);
         
-        webView.uiDelegate = self;
+        PWAShell.webView.uiDelegate = self;
 
         
-        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
+        PWAShell.webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         
         
 //        if #available(iOS 11, *) {
@@ -88,7 +89,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     }
     
     @objc func loadRootUrl() {
-        webView.load(URLRequest(url: rootUrl));
+        PWAShell.webView.load(URLRequest(url: rootUrl));
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!){
@@ -98,7 +99,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         self.animateConnectionProblem(false);
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-            self.webView.isHidden = false;
+            PWAShell.webView.isHidden = false;
             self.loadingView.isHidden = true;
            
             self.setProgress(0.0, false);
@@ -127,10 +128,10 @@ class ViewController: UIViewController, WKNavigationDelegate {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
 
         if (keyPath == #keyPath(WKWebView.estimatedProgress) &&
-                self.webView.isLoading &&
+                PWAShell.webView.isLoading &&
                 !self.loadingView.isHidden &&
                 !self.htmlIsLoaded) {
-                    var progress = Float(self.webView.estimatedProgress);
+                    var progress = Float(PWAShell.webView.estimatedProgress);
                     
                     if (progress >= 0.8) { progress = 1.0; };
                     if (progress >= 0.3) { self.animateConnectionProblem(false); }
@@ -169,20 +170,20 @@ class ViewController: UIViewController, WKNavigationDelegate {
     }
         
     deinit {
-        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
+        PWAShell.webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
     }
 }
 
 extension ViewController: WKScriptMessageHandler {
   func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         if message.name == "print" {
-            printView(webView: webView)
+            printView(webView: PWAShell.webView)
         }
         if message.name == "push-subscribe" {
             handleSubscribeTouch(message: message)
         }
         if message.name == "push-permission" {
-            handlePushPermission(webView: webView)
+            handlePushPermission(webView: PWAShell.webView)
         }
   }
 }

@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // [START register_for_notifications]
    
         UNUserNotificationCenter.current().delegate = self
-//
+
 //        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
 //        UNUserNotificationCenter.current().requestAuthorization(
 //            options: authOptions,
@@ -51,11 +51,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Messaging.messaging().appDidReceiveMessage(userInfo)
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
-          print("Message ID: \(messageID)")
+          print("Message ID 1: \(messageID)")
         }
 
         // Print full message.
-        print(userInfo)
+        print("push userInfo 1:", userInfo)
+        sendPushToWebView(userInfo: userInfo)
       }
 
       func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
@@ -67,11 +68,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Messaging.messaging().appDidReceiveMessage(userInfo)
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
-          print("Message ID: \(messageID)")
+          print("Message ID 2: \(messageID)")
         }
 
-        // Print full message.
-        print(userInfo)
+        // Print full message. **
+        print("push userInfo 2:", userInfo)
+        sendPushToWebView(userInfo: userInfo)
 
         completionHandler(UIBackgroundFetchResult.newData)
       }
@@ -83,19 +85,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       // This function is added here only for debugging purposes, and can be removed if swizzling is enabled.
       // If swizzling is disabled then this function must be implemented so that the APNs token can be paired to
       // the FCM registration token.
-      func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("APNs token retrieved: \(deviceToken)")
-
-        // With swizzling disabled you must set the APNs token here.
-        // Messaging.messaging().apnsToken = deviceToken
-      }
+//      func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+//        print("APNs token retrieved: \(deviceToken)")
+//
+//        // With swizzling disabled you must set the APNs token here.
+//        // Messaging.messaging().apnsToken = deviceToken
+//      }
     }
 
     // [START ios_10_message_handling]
-    @available(iOS 10, *)
     extension AppDelegate : UNUserNotificationCenterDelegate {
 
-      // Receive displayed notifications for iOS 10 devices.
       func userNotificationCenter(_ center: UNUserNotificationCenter,
                                   willPresent notification: UNNotification,
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
@@ -105,11 +105,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Messaging.messaging().appDidReceiveMessage(userInfo)
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
-          print("Message ID: \(messageID)")
+          print("Message ID: 3 \(messageID)")
         }
 
         // Print full message.
-        print(userInfo)
+        print("push userInfo 3:", userInfo)
+        sendPushToWebView(userInfo: userInfo)
 
         // Change this to your preferred presentation option
         completionHandler([[.alert, .sound]])
@@ -121,13 +122,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let userInfo = response.notification.request.content.userInfo
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
-          print("Message ID: \(messageID)")
+          print("Message ID 4: \(messageID)")
         }
 
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
         // Print full message.
-        print(userInfo)
+        print("push userInfo 4:", userInfo)
+        sendPushToWebView(userInfo: userInfo)
 
         completionHandler()
       }

@@ -72,18 +72,17 @@ func parseSubscribeMessage(message: WKScriptMessage) -> [SubscribeMessage] {
     return subscribeMessages
 }
 
-func returnPermissionState(webView: WKWebView, isGranted: Bool){
+func returnPermissionState(isGranted: Bool){
     DispatchQueue.main.async(execute: {
         if (isGranted){
-            webView.evaluateJavaScript("this.dispatchEvent(new CustomEvent('push-permission', { detail: 'granted' }))")
+            PWAShell.webView.evaluateJavaScript("this.dispatchEvent(new CustomEvent('push-permission', { detail: 'granted' }))")
         }
         else {
-            webView.evaluateJavaScript("this.dispatchEvent(new CustomEvent('push-permission', { detail: 'denied' }))")
+            PWAShell.webView.evaluateJavaScript("this.dispatchEvent(new CustomEvent('push-permission', { detail: 'denied' }))")
         }
     })
 }
 func handlePushPermission(webView: WKWebView) {
-    let application = UIApplication.shared
     UNUserNotificationCenter.current().getNotificationSettings () { settings in
             switch settings.authorizationStatus {
             case .notDetermined:
@@ -93,54 +92,49 @@ func handlePushPermission(webView: WKWebView) {
                     completionHandler: { (success, error) in
                         if error == nil {
                             if success == true {
-                                returnPermissionState(webView: webView, isGranted: true)
+                                returnPermissionState(isGranted: true)
                                 DispatchQueue.main.async {
                                   UIApplication.shared.registerForRemoteNotifications()
                                 }
                             }
                             else {
-                                returnPermissionState(webView: webView,isGranted: false)
+                                returnPermissionState(isGranted: false)
                             }
                         }
                         else {
-                            returnPermissionState(webView: webView, isGranted: false)
+                            returnPermissionState(isGranted: false)
                         }
                     }
                 )
             case .denied:
-                returnPermissionState(webView: webView, isGranted: false)
+                returnPermissionState(isGranted: false)
             case .authorized, .ephemeral, .provisional:
-                returnPermissionState(webView: webView, isGranted: true)
+                returnPermissionState(isGranted: true)
             @unknown default:
                 return;
             }
         }
 }
-
-//    @IBAction func handleLogTokenTouch(_ sender: UIButton) {
-//      // [START log_fcm_reg_token]
-//      let token = Messaging.messaging().fcmToken
-//      print("FCM token: \(token ?? "")")
-//      // [END log_fcm_reg_token]
-//      self.fcmTokenMessage.text  = "Logged FCM token: \(token ?? "")"
-//
-//      // [START log_iid_reg_token]
-//      InstanceID.instanceID().instanceID { (result, error) in
-//        if let error = error {
-//          print("Error fetching remote instance ID: \(error)")
-//        } else if let result = result {
-//          print("Remote instance ID token: \(result.token)")
-//          self.instanceIDTokenMessage.text  = "Remote InstanceID token: \(result.token)"
-//        }
-//      }
-//      // [END log_iid_reg_token]
-//    }
-
-
-
-//    @objc func displayFCMToken(notification: NSNotification){
-//      guard let userInfo = notification.userInfo else {return}
-//      if let fcmToken = userInfo["token"] as? String {
-//        self.fcmTokenMessage.text = "Received FCM token: \(fcmToken)"
-//      }
-//    }
+func sendPushToWebView(userInfo: [AnyHashable: Any]){
+    var json = "";
+    do {
+        let jsonData = try JSONSerialization.data(withJSONObject: userInfo)
+        json = String(data: jsonData, encoding: .utf8)!
+    } catch {
+        print("ERROR: userInfo parsing problem")
+        return
+    }
+    func checkViewAndEvaluate() {
+        if (!PWAShell.webView.isHidden && !PWAShell.webView.isLoading ) {
+            DispatchQueue.main.async(execute: {
+                PWAShell.webView.evaluateJavaScript("this.dispatchEvent(new CustomEvent('push-notification', { detail: \(json) }))")
+            })
+        }
+        else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                checkViewAndEvaluate()
+            }
+        }
+    }
+    checkViewAndEvaluate()
+}
