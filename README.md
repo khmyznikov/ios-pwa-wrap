@@ -5,6 +5,10 @@ Makes possible of publishing PWA to Apple Store like TWA from Google. Firebase c
 |---|---|---|
 |![Launch process](https://user-images.githubusercontent.com/6115884/111901850-68c73c80-8a4b-11eb-840d-64e80020a034.gif)|![Native Push API request](https://user-images.githubusercontent.com/6115884/113514430-33f0d480-9577-11eb-9fc5-09fda0ee44e6.gif)|<img width="549" alt="Auth Redirect Example" src="https://user-images.githubusercontent.com/6115884/111901222-ab871580-8a47-11eb-9ac9-e5fc877ba1b9.png">|
 
+| Handle Push content in JS |
+|-|
+![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/6115884/116286284-b5fba400-a797-11eb-8015-cd269915b82c.gif)
+
 
 # Quick start
 ## Install Pods references
@@ -39,6 +43,16 @@ window.addEventListener('push-permission', (message) => {
         break;
     }
   }
+});
+```
+## Push notifications handle
+```javascript
+window.addEventListener('push-notification', (message) => {
+    if (message && message.detail) { 
+        console.log(message.detail);
+        if (message.detail.aps && message.detail.aps.alert)
+            alert(`${message.detail.aps.alert.title} ${message.detail.aps.alert.body}`);
+    }
 });
 ```
 ## Push topic subscribe
