@@ -25,14 +25,14 @@ Makes possible of publishing PWA to Apple Store like TWA from Google. Supports w
 # JS Features
 ## Push permission request
 ```javascript
-if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers['push-permission']) {
+if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers['push-permission-request']) {
   window.iOSPushCapability = true;
 }
-pushRequest = function(){
+pushPermissionRequest = function(){
   if (window.iOSPushCapability)
-    window.webkit.messageHandlers['push-permission'].postMessage('push-permission');
+    window.webkit.messageHandlers['push-permission-request'].postMessage('push-permission-request');
 }
-window.addEventListener('push-permission', (message) => {
+window.addEventListener('push-permission-request', (message) => {
   if (message && message.detail){
     switch (message.detail) {
       case 'granted':
@@ -40,6 +40,33 @@ window.addEventListener('push-permission', (message) => {
         break;
       default:
         // permission denied
+        break;
+    }
+  }
+});
+```
+## Push permission state
+```javascript
+pushPermissionState = function(){
+  window.webkit.messageHandlers['push-permission-state'].postMessage('push-permission-state');
+}
+window.addEventListener('push-permission-state', (message) => {
+  if (message && message.detail){
+    switch (message.detail) {
+      case 'notDetermined':
+        // permission not asked
+        break;
+      case 'denied':
+        // permission denied
+        break;
+      case 'authorized':
+      case 'ephemeral':
+      case 'provisional':
+        // permission granted
+        break;
+      case 'unknown':
+      default:
+        // something wrong
         break;
     }
   }
