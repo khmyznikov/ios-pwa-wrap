@@ -72,17 +72,23 @@ func parseSubscribeMessage(message: WKScriptMessage) -> [SubscribeMessage] {
     return subscribeMessages
 }
 
-func returnPermissionState(isGranted: Bool){
+func returnPermissionResult(isGranted: Bool){
     DispatchQueue.main.async(execute: {
         if (isGranted){
-            PWAShell.webView.evaluateJavaScript("this.dispatchEvent(new CustomEvent('push-permission', { detail: 'granted' }))")
+            PWAShell.webView.evaluateJavaScript("this.dispatchEvent(new CustomEvent('push-permission-request', { detail: 'granted' }))")
         }
         else {
-            PWAShell.webView.evaluateJavaScript("this.dispatchEvent(new CustomEvent('push-permission', { detail: 'denied' }))")
+            PWAShell.webView.evaluateJavaScript("this.dispatchEvent(new CustomEvent('push-permission-request', { detail: 'denied' }))")
         }
     })
 }
-func handlePushPermission(webView: WKWebView) {
+func returnPermissionState(state: String){
+    DispatchQueue.main.async(execute: {
+        PWAShell.webView.evaluateJavaScript("this.dispatchEvent(new CustomEvent('push-permission-state', { detail: '\(state)' }))")
+    })
+}
+
+func handlePushPermission() {
     UNUserNotificationCenter.current().getNotificationSettings () { settings in
             switch settings.authorizationStatus {
             case .notDetermined:
@@ -92,29 +98,49 @@ func handlePushPermission(webView: WKWebView) {
                     completionHandler: { (success, error) in
                         if error == nil {
                             if success == true {
-                                returnPermissionState(isGranted: true)
+                                returnPermissionResult(isGranted: true)
                                 DispatchQueue.main.async {
                                   UIApplication.shared.registerForRemoteNotifications()
                                 }
                             }
                             else {
-                                returnPermissionState(isGranted: false)
+                                returnPermissionResult(isGranted: false)
                             }
                         }
                         else {
-                            returnPermissionState(isGranted: false)
+                            returnPermissionResult(isGranted: false)
                         }
                     }
                 )
             case .denied:
-                returnPermissionState(isGranted: false)
+                returnPermissionResult(isGranted: false)
             case .authorized, .ephemeral, .provisional:
-                returnPermissionState(isGranted: true)
+                returnPermissionResult(isGranted: true)
             @unknown default:
                 return;
             }
         }
 }
+func handlePushState() {
+    UNUserNotificationCenter.current().getNotificationSettings () { settings in
+        switch settings.authorizationStatus {
+        case .notDetermined:
+            returnPermissionState(state: "notDetermined")
+        case .denied:
+            returnPermissionState(state: "denied")
+        case .authorized:
+            returnPermissionState(state: "authorized")
+        case .ephemeral:
+            returnPermissionState(state: "ephemeral")
+        case .provisional:
+            returnPermissionState(state: "provisional")
+        @unknown default:
+            returnPermissionState(state: "unknown")
+            return;
+        }
+    }
+}
+
 func sendPushToWebView(userInfo: [AnyHashable: Any]){
     var json = "";
     do {

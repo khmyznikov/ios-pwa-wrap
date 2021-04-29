@@ -19,7 +19,8 @@ func createWebView(container: UIView, WKSMH: WKScriptMessageHandler, WKND: WKNav
 
     userContentController.add(WKSMH, name: "print")
     userContentController.add(WKSMH, name: "push-subscribe")
-    userContentController.add(WKSMH, name: "push-permission")
+    userContentController.add(WKSMH, name: "push-permission-request")
+    userContentController.add(WKSMH, name: "push-permission-state")
     config.userContentController = userContentController
     
     if #available(iOS 14, *) {
