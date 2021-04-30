@@ -150,7 +150,6 @@ extension ViewController: WKUIDelegate {
                             toolbarView.isHidden = false
                             webView.frame = calcWebviewFrame(webviewView: webviewView, toolbarView: toolbarView)
                         }
-
                         return
                     }
                     else {
