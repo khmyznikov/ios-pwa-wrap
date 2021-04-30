@@ -153,8 +153,17 @@ extension ViewController: WKUIDelegate {
 
                         return
                     }
-                    else { decisionHandler(.cancel) }
+                    else {
+                        if (navigationAction.navigationType == .other && navigationAction.sourceFrame.isMainFrame) {
+                            decisionHandler(.allow)
+                            return
+                        }
+                        else {
+                            decisionHandler(.cancel)
+                        }
+                    }
                     
+
                     if ["http", "https"].contains(requestUrl.scheme?.lowercased() ?? "") {
                          // Can open with SFSafariViewController
                          let safariViewController = SFSafariViewController(url: requestUrl)
@@ -165,6 +174,7 @@ extension ViewController: WKUIDelegate {
                             UIApplication.shared.open(requestUrl)
                         }
                      }
+                    
                 }
             } else {
                 decisionHandler(.cancel)
