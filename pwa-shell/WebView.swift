@@ -153,7 +153,11 @@ extension ViewController: WKUIDelegate {
                         return
                     }
                     else {
-                        if (navigationAction.navigationType == .other && navigationAction.sourceFrame.isMainFrame) {
+                        if (navigationAction.navigationType == .other &&
+                            navigationAction.value(forKey: "syntheticClickType") as! Int == 0 &&
+                            (navigationAction.targetFrame != nil) &&
+                            (navigationAction.sourceFrame != nil)
+                        ) {
                             decisionHandler(.allow)
                             return
                         }
