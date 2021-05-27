@@ -40,7 +40,7 @@ func createWebView(container: UIView, WKSMH: WKScriptMessageHandler, WKND: WKNav
     webView.navigationDelegate = WKND;
 
     webView.scrollView.bounces = false;
-    webView.allowsBackForwardNavigationGestures = false
+    webView.allowsBackForwardNavigationGestures = true
     
 
     webView.scrollView.contentInsetAdjustmentBehavior = .never
