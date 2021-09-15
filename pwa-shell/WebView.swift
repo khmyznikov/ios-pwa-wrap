@@ -27,7 +27,8 @@ func createWebView(container: UIView, WKSMH: WKScriptMessageHandler, WKND: WKNav
         config.limitsNavigationsToAppBoundDomains = true;
         
     }
-    config.preferences.javaScriptCanOpenWindowsAutomatically = true
+    config.preferences.javaScriptCanOpenWindowsAutomatically = true;
+    config.allowsInlineMediaPlayback = true;
     
     let webView = WKWebView(frame: calcWebviewFrame(webviewView: container, toolbarView: nil), configuration: config)
     
