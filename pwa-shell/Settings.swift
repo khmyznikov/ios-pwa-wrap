@@ -17,6 +17,7 @@ let gcmMessageIDKey = "87336923954"
 
 let rootUrl = URL(string: "https://www.khmyznikov.com/ms-auth-test/")!
 let allowedOrigin = "www.khmyznikov.com"
+// 9 is MAX
 let authOrigins = [ "login.microsoftonline.com", "login.live.com", "account.live.com", "tomayac.github.io", "whatpwacando.today"];
 
 

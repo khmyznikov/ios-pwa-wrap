@@ -66,7 +66,13 @@ class ViewController: UIViewController, WKNavigationDelegate {
     func createToolbarView() -> UIToolbar{
         let winScene = UIApplication.shared.connectedScenes.first
         let windowScene = winScene as! UIWindowScene
-        let statusBarHeight = windowScene.statusBarManager?.statusBarFrame.height ?? 60
+        var statusBarHeight = windowScene.statusBarManager?.statusBarFrame.height ?? 60
+        
+        #if targetEnvironment(macCatalyst)
+        if (statusBarHeight == 0){
+            statusBarHeight = 30
+        }
+        #endif
         
         let toolbarView = UIToolbar(frame: CGRect(x: 0, y: 0, width: webviewView.frame.width, height: 0))
         toolbarView.sizeToFit()
