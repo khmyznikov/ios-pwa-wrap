@@ -102,6 +102,7 @@
 	<true/>
 	<key>WKAppBoundDomains</key>
 	<array>
+		<string>whatpwacando.today</string>
 		<string>tomayac.github.io</string>
 		<string>login.live.com</string>
 		<string>account.live.com</string>

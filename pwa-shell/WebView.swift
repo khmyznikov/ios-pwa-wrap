@@ -145,18 +145,23 @@ extension ViewController: WKUIDelegate {
                     }
                     
                 } else {
-                    if (requestHost.range(of: authOrigin_1) != nil || requestHost.range(of: authOrigin_2) != nil || requestHost.range(of: authOrigin_3) != nil || requestHost.range(of: authOrigin_4) != nil) {
-                        decisionHandler(.allow)
-                        if (toolbarView.isHidden) {
-                            toolbarView.isHidden = false
-                            webView.frame = calcWebviewFrame(webviewView: webviewView, toolbarView: toolbarView)
-                        }
-                        return
+                    if (authOrigins.contains{
+                            if (requestHost.range(of: $0) != nil) { return true }
+                            else { return false }
+                        })
+                        {
+                            decisionHandler(.allow)
+                            if (toolbarView.isHidden) {
+                                toolbarView.isHidden = false
+                                webView.frame = calcWebviewFrame(webviewView: webviewView, toolbarView: toolbarView)
+                            }
+                            return
                     }
                     else {
                         if (navigationAction.navigationType == .other &&
                             navigationAction.value(forKey: "syntheticClickType") as! Int == 0 &&
                             (navigationAction.targetFrame != nil) &&
+                            // no error here, fake warning
                             (navigationAction.sourceFrame != nil)
                         ) {
                             decisionHandler(.allow)
