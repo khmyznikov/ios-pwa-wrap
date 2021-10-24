@@ -7,9 +7,9 @@ Supports everything that can do Safari (like Location, Media, Share, Pay, and ot
 |---|---|---|
 |![Launch process](https://user-images.githubusercontent.com/6115884/111901850-68c73c80-8a4b-11eb-840d-64e80020a034.gif)|![Native Push API request](https://user-images.githubusercontent.com/6115884/113514430-33f0d480-9577-11eb-9fc5-09fda0ee44e6.gif)|<img width="549" alt="Auth Redirect Example" src="https://user-images.githubusercontent.com/6115884/111901222-ab871580-8a47-11eb-9ac9-e5fc877ba1b9.png">|
 
-| Handle Push content in JS |
-|-|
-![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/6115884/116286284-b5fba400-a797-11eb-8015-cd269915b82c.gif)
+| Handle Push content in JS | MacOS support |
+|-|-|
+|<img width="600" alt="Handle Push content in JS" src="https://user-images.githubusercontent.com/6115884/116286284-b5fba400-a797-11eb-8015-cd269915b82c.gif">|<img width="300" alt="MacOS support" src="https://user-images.githubusercontent.com/6115884/138604212-a52cdd41-c365-4509-8153-d817ca0e6136.jpg">|
 
 
 # Quick start
