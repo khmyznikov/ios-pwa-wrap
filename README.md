@@ -2,6 +2,8 @@
 Makes possible of publishing PWA to Apple Store like TWA from Google. Supports work with push notifications from JS code, handle auth providers by redirect URL, handle external links, print page support, and loading animation. Firebase cloud messaging are used for Push Notifications.
 
 Supports everything that can do Safari (like Location, Media, Share, Pay, and other Web APIs) and more (like Push, Print, and everything you added on top) with native callbacks.
+
+This project has grown from the internal development of [Hostme App](https://www.hostmeapp.com/).
 # Gallery
 | Launch process | Native Push API request | MSAL Auth Redirect |
 |---|---|---|
