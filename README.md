@@ -4,6 +4,9 @@ Makes possible of publishing PWA to Apple Store like TWA from Google. Supports w
 Supports everything that can do Safari (like Location, Media, Share, Pay, and other Web APIs) and more (like Push, Print, and everything you added on top) with native callbacks.
 
 This project has grown from the internal development of [Hostme App](https://www.hostmeapp.com/).
+
+The [iOS part](https://github.com/pwa-builder/pwabuilder-ios) of [PWA Builder](https://www.pwabuilder.com/) project forked this repository as a template and it's should develop faster, so take a look at it first.
+
 # Gallery
 | Launch process | Native Push API request | MSAL Auth Redirect |
 |---|---|---|
