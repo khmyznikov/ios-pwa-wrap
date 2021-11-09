@@ -23,6 +23,4 @@ let authOrigins = [ "login.microsoftonline.com", "login.live.com", "account.live
 
 let platformCookie = Cookie(name: "app-platform", value: "ios/ipados")
 
-
-//let statusBarColor = "#FFFFFF"
-//let statusBarStyle = UIStatusBarStyle.lightContent
+let displayMode = "fullscreen" //standalone / fullscreen

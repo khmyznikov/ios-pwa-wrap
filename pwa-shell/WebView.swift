@@ -74,20 +74,23 @@ func calcWebviewFrame(webviewView: UIView, toolbarView: UIToolbar?) -> CGRect{
         let winScene = UIApplication.shared.connectedScenes.first
         let windowScene = winScene as! UIWindowScene
         var statusBarHeight = windowScene.statusBarManager?.statusBarFrame.height ?? 0
-        #if targetEnvironment(macCatalyst)
-        statusBarHeight = 29
-        // Use this to disabale title bar for Mac
-//            if let titlebar = windowScene.titlebar {
-//                titlebar.titleVisibility = .hidden
-//                titlebar.toolbar = nil
-//            }
-        #endif
-        let windowHeight = webviewView.frame.height - statusBarHeight
-
         
-
-        
-        return CGRect(x: 0, y: statusBarHeight, width: webviewView.frame.width, height: windowHeight)
+        switch displayMode {
+        case "fullscreen":
+            #if targetEnvironment(macCatalyst)
+                if let titlebar = windowScene.titlebar {
+                    titlebar.titleVisibility = .hidden
+                    titlebar.toolbar = nil
+                }
+            #endif
+            return CGRect(x: 0, y: 0, width: webviewView.frame.width, height: webviewView.frame.height)
+        default:
+            #if targetEnvironment(macCatalyst)
+            statusBarHeight = 29
+            #endif
+            let windowHeight = webviewView.frame.height - statusBarHeight
+            return CGRect(x: 0, y: statusBarHeight, width: webviewView.frame.width, height: windowHeight)
+        }
     }
 }
 
