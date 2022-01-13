@@ -28,8 +28,8 @@ func createWebView(container: UIView, WKSMH: WKScriptMessageHandler, WKND: WKNav
         
     }
     config.preferences.javaScriptCanOpenWindowsAutomatically = true
-    config.allowsInlineMediaPlayback = true
     config.preferences.setValue(true, forKey: "standalone")
+    config.allowsInlineMediaPlayback = true
     
     
     let webView = WKWebView(frame: calcWebviewFrame(webviewView: container, toolbarView: nil), configuration: config)
@@ -40,13 +40,15 @@ func createWebView(container: UIView, WKSMH: WKScriptMessageHandler, WKND: WKNav
 
     webView.isHidden = true;
 
-    webView.navigationDelegate = WKND;
+    webView.navigationDelegate = WKND
 
-    webView.scrollView.bounces = false;
-    webView.allowsBackForwardNavigationGestures = true
-    
-
+    webView.scrollView.bounces = false
     webView.scrollView.contentInsetAdjustmentBehavior = .never
+    webView.allowsBackForwardNavigationGestures = true
+
+    
+    webView.configuration.applicationNameForUserAgent = "Safari/604.1" // See https://github.com/pwa-builder/pwabuilder-ios/issues/30
+    webView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 15_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.2 Mobile/15E148 Safari/604.1"
 
 
     webView.addObserver(NSO, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: NSKeyValueObservingOptions.new, context: nil)
