@@ -216,6 +216,7 @@ extension ViewController: WKUIDelegate {
         }
         
     }
+    // Handle javascript: `window.alert(message: String)`
     func webView(_ webView: WKWebView,
         runJavaScriptAlertPanelWithMessage message: String,
         initiatedByFrame frame: WKFrameInfo,
@@ -237,6 +238,89 @@ extension ViewController: WKUIDelegate {
                 completionHandler()
             }
         )
+        alert.addAction(okAction)
+
+        // Display the NSAlert
+        present(alert, animated: true, completion: nil)
+    }
+    // Handle javascript: `window.confirm(message: String)`
+    func webView(_ webView: WKWebView,
+        runJavaScriptConfirmPanelWithMessage message: String,
+        initiatedByFrame frame: WKFrameInfo,
+        completionHandler: @escaping (Bool) -> Void) {
+
+        // Set the message as the UIAlertController message
+        let alert = UIAlertController(
+            title: nil,
+            message: message,
+            preferredStyle: .alert
+        )
+        
+        // Add a confirmation action “Cancel”
+        let cancelAction = UIAlertAction(
+            title: "Cancel",
+            style: .cancel,
+            handler: { _ in
+                // Call completionHandler
+                completionHandler(false)
+            }
+        )
+        
+        // Add a confirmation action “OK”
+        let okAction = UIAlertAction(
+            title: "OK",
+            style: .default,
+            handler: { _ in
+                // Call completionHandler
+                completionHandler(true)
+            }
+        )
+        alert.addAction(cancelAction)
+        alert.addAction(okAction)
+
+        // Display the NSAlert
+        present(alert, animated: true, completion: nil)
+    }
+    // Handle javascript: `window.prompt(prompt: String, defaultText: String?)`
+    func webView(_ webView: WKWebView,
+        runJavaScriptTextInputPanelWithPrompt prompt: String,
+        defaultText: String?,
+        initiatedByFrame frame: WKFrameInfo,
+        completionHandler: @escaping (String?) -> Void) {
+
+        // Set the message as the UIAlertController message
+        let alert = UIAlertController(
+            title: nil,
+            message: prompt,
+            preferredStyle: .alert
+        )
+        
+        // Add a confirmation action “Cancel”
+        let cancelAction = UIAlertAction(
+            title: "Cancel",
+            style: .cancel,
+            handler: { _ in
+                // Call completionHandler
+                completionHandler(nil)
+            }
+        )
+        
+        // Add a confirmation action “OK”
+        let okAction = UIAlertAction(
+            title: "OK",
+            style: .default,
+            handler: { _ in
+                // Call completionHandler with Alert input
+                if let input = alert.textFields?.first?.text {
+                    completionHandler(input)
+                }
+            }
+        )
+        
+        alert.addTextField { textField in
+            textField.placeholder = defaultText
+        }
+        alert.addAction(cancelAction)
         alert.addAction(okAction)
 
         // Display the NSAlert
