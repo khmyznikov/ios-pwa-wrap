@@ -24,11 +24,13 @@ func createWebView(container: UIView, WKSMH: WKScriptMessageHandler, WKND: WKNav
     config.userContentController = userContentController
     
     if #available(iOS 14, *) {
-        config.limitsNavigationsToAppBoundDomains = true;
+        config.limitsNavigationsToAppBoundDomains = true
         
     }
-    config.preferences.javaScriptCanOpenWindowsAutomatically = true;
-    config.allowsInlineMediaPlayback = true;
+    config.preferences.javaScriptCanOpenWindowsAutomatically = true
+    config.allowsInlineMediaPlayback = true
+    config.preferences.setValue(true, forKey: "standalone")
+    
     
     let webView = WKWebView(frame: calcWebviewFrame(webviewView: container, toolbarView: nil), configuration: config)
     
