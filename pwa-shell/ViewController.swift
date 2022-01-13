@@ -95,7 +95,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     }
     
     @objc func loadRootUrl() {
-        PWAShell.webView.load(URLRequest(url: rootUrl));
+        PWAShell.webView.load(URLRequest(url: SceneDelegate.universalLinkToLaunch ?? rootUrl));
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!){
