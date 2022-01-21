@@ -17,28 +17,29 @@ class ViewController: UIViewController, WKNavigationDelegate {
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var connectionProblemView: UIImageView!
     @IBOutlet weak var webviewView: UIView!
-    //    var newWebviewPopupWindow: WKWebView?
-    
-    var statusBarView: UIView!
     var toolbarView: UIToolbar!
-    
-
     
     var htmlIsLoaded = false;
     
-    
-//    override var preferredStatusBarStyle : UIStatusBarStyle {
-//        return statusBarStyle;
-//    }
+    private var themeObservation: NSKeyValueObservation?
+    var currentWebViewTheme: UIUserInterfaceStyle = .unspecified
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        if #available(iOS 13, *), overrideStatusBar{
+            if #available(iOS 15, *) {
+                return .default
+            } else {
+                return statusBarTheme == "dark" ? .lightContent : .darkContent
+            }
+        }
+        return .default
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         initWebView()
         initToolbarView()
         loadRootUrl()
-        
-//        self.view.backgroundColor = hexStringToUIColor(hex: statusBarColor)
-        
+    
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification , object: nil)
         
     }
@@ -52,15 +53,15 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webviewView.addSubview(PWAShell.webView);
         
         PWAShell.webView.uiDelegate = self;
-
         
         PWAShell.webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         
-        
-//        if #available(iOS 11, *) {
-//            statusBarView = createStatusBar(container: webviewView)
-//            showStatusBar(true)
-//        }
+        if #available(iOS 15.0, *), adaptiveUIStyle {
+            themeObservation = PWAShell.webView.observe(\.underPageBackgroundColor) { [unowned self] webView, _ in
+                currentWebViewTheme = PWAShell.webView.underPageBackgroundColor.isLight() ?? true ? .light : .dark
+                self.overrideUIStyle()
+            }
+        }
     }
     
     func createToolbarView() -> UIToolbar{
@@ -88,6 +89,18 @@ class ViewController: UIViewController, WKNavigationDelegate {
         return toolbarView
     }
     
+    func overrideUIStyle(toDefault: Bool = false) {
+        if #available(iOS 15.0, *), adaptiveUIStyle {
+            if (((htmlIsLoaded && !PWAShell.webView.isHidden) || toDefault) && self.currentWebViewTheme != .unspecified) {
+                UIApplication
+                    .shared
+                    .connectedScenes
+                    .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+                    .first { $0.isKeyWindow }?.overrideUserInterfaceStyle = toDefault ? .unspecified : self.currentWebViewTheme;
+            }
+        }
+    }
+    
     func initToolbarView() {
         toolbarView =  createToolbarView()
         
@@ -95,20 +108,22 @@ class ViewController: UIViewController, WKNavigationDelegate {
     }
     
     @objc func loadRootUrl() {
-        PWAShell.webView.load(URLRequest(url: SceneDelegate.universalLinkToLaunch ?? rootUrl));
+        PWAShell.webView.load(URLRequest(url: SceneDelegate.universalLinkToLaunch ?? rootUrl))
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!){
-        htmlIsLoaded = true;
+        htmlIsLoaded = true
         
-        self.setProgress(1.0, true);
-        self.animateConnectionProblem(false);
+        self.setProgress(1.0, true)
+        self.animateConnectionProblem(false)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-            PWAShell.webView.isHidden = false;
-            self.loadingView.isHidden = true;
+            PWAShell.webView.isHidden = false
+            self.loadingView.isHidden = true
            
-            self.setProgress(0.0, false);
+            self.setProgress(0.0, false)
+            
+            self.overrideUIStyle()
         }
     }
     
@@ -116,6 +131,8 @@ class ViewController: UIViewController, WKNavigationDelegate {
         htmlIsLoaded = false;
         
         if (error as NSError)._code != (-999) {
+            self.overrideUIStyle(toDefault: true);
+
             webView.isHidden = true;
             loadingView.isHidden = false;
             animateConnectionProblem(true);
@@ -143,7 +160,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
                     if (progress >= 0.3) { self.animateConnectionProblem(false); }
                     
                     self.setProgress(progress, true);
-            
         }
     }
     
@@ -151,11 +167,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
         self.progressView.setProgress(progress, animated: animated);
     }
     
-    func showStatusBar(_ show: Bool) {
-        if (self.statusBarView != nil) {
-            self.statusBarView.isHidden = !show
-        }
-    }
     
     func animateConnectionProblem(_ show: Bool) {
         if (show) {
@@ -177,6 +188,28 @@ class ViewController: UIViewController, WKNavigationDelegate {
         
     deinit {
         PWAShell.webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
+    }
+}
+
+extension UIColor {
+    // Check if the color is light or dark, as defined by the injected lightness threshold.
+    // Some people report that 0.7 is best. I suggest to find out for yourself.
+    // A nil value is returned if the lightness couldn't be determined.
+    func isLight(threshold: Float = 0.5) -> Bool? {
+        let originalCGColor = self.cgColor
+
+        // Now we need to convert it to the RGB colorspace. UIColor.white / UIColor.black are greyscale and not RGB.
+        // If you don't do this then you will crash when accessing components index 2 below when evaluating greyscale colors.
+        let RGBCGColor = originalCGColor.converted(to: CGColorSpaceCreateDeviceRGB(), intent: .defaultIntent, options: nil)
+        guard let components = RGBCGColor?.components else {
+            return nil
+        }
+        guard components.count >= 3 else {
+            return nil
+        }
+
+        let brightness = Float(((components[0] * 299) + (components[1] * 587) + (components[2] * 114)) / 1000)
+        return (brightness > threshold)
     }
 }
 

@@ -16,11 +16,17 @@ struct Cookie {
 let gcmMessageIDKey = "87336923954"
 
 let rootUrl = URL(string: "https://www.khmyznikov.com/ms-auth-test/")!
-let allowedOrigin = "www.khmyznikov.com"
-// 9 is MAX
-let authOrigins = [ "login.microsoftonline.com", "login.live.com", "account.live.com", "tomayac.github.io", "whatpwacando.today"];
+
+// rootUrl should be in allowedOrigins. allowedOrigins + authOrigins <= 10 domains max.
+// All domains should be in WKAppBoundDomains list
+let allowedOrigins = [ "www.khmyznikov.com" ]
+let authOrigins = [ "login.microsoftonline.com", "login.live.com", "account.live.com", "tomayac.github.io", "whatpwacando.today"]
 
 
 let platformCookie = Cookie(name: "app-platform", value: "ios/ipados")
 
-let displayMode = "fullscreen" //standalone / fullscreen
+// UI options
+let displayMode = "fullscreen" // standalone / fullscreen.
+let adaptiveUIStyle = true     // iOS 15+ only. Change app theme on the fly to dark/light related to WebView background color.
+let overrideStatusBar = false   // iOS 13-14 only. if you don't support dark/light system theme.
+let statusBarTheme = "dark"    // dark / light, related to override option.

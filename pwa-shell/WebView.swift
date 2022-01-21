@@ -98,51 +98,6 @@ func calcWebviewFrame(webviewView: UIView, toolbarView: UIToolbar?) -> CGRect{
     }
 }
 
-//func createStatusBar(container: UIView) -> UIView {
-//    let app = UIApplication.shared
-//    let statusBarHeight: CGFloat = app.statusBarFrame.size.height
-//
-//    let statusBarView = UIView()
-//    statusBarView.backgroundColor = hexStringToUIColor(hex: statusBarColor)
-//    container.addSubview(statusBarView)
-//
-//    statusBarView.translatesAutoresizingMaskIntoConstraints = false
-//    statusBarView.heightAnchor
-//      .constraint(equalToConstant: statusBarHeight).isActive = true
-//    statusBarView.widthAnchor
-//      .constraint(equalTo: container.widthAnchor, multiplier: 1.0).isActive = true
-//    statusBarView.topAnchor
-//      .constraint(equalTo: container.topAnchor).isActive = true
-//    statusBarView.centerXAnchor
-//      .constraint(equalTo: container.centerXAnchor).isActive = true
-//
-//    statusBarView.isHidden = true
-//
-//    return statusBarView
-//}
-
-//func hexStringToUIColor (hex:String) -> UIColor {
-//    var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-//
-//    if (cString.hasPrefix("#")) {
-//        cString.remove(at: cString.startIndex)
-//    }
-//
-//    if ((cString.count) != 6) {
-//        return UIColor.gray
-//    }
-//
-//    var rgbValue:UInt64 = 0
-//    Scanner(string: cString).scanHexInt64(&rgbValue)
-//
-//    return UIColor(
-//        red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
-//        green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
-//        blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-//        alpha: CGFloat(1.0)
-//    )
-//}
-
 extension ViewController: WKUIDelegate {
     // redirect new tabs to main webview
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
@@ -155,7 +110,10 @@ extension ViewController: WKUIDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if let requestUrl = navigationAction.request.url{
             if let requestHost = requestUrl.host {
-                if (requestHost.range(of: allowedOrigin) != nil) {
+                if (allowedOrigins.contains{
+                    if (requestHost.range(of: $0) != nil) { return true }
+                    else { return false }
+                }) {
                     // Open in main webview
                     decisionHandler(.allow)
                     if (!toolbarView.isHidden) {
