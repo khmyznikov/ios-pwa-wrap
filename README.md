@@ -117,6 +117,13 @@ printView = function() {
 }
 ```
 
+# HTML Features
+## Viewport
+> don't forget to use viewport meta tag in your webapp
+```html
+<meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, shrink-to-fit=no">
+```
+
 ***
 ## TO DO:
 - More ellegant solution for toolbar and statusbar
