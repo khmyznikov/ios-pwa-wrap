@@ -132,7 +132,7 @@ extension ViewController: WKUIDelegate {
                         })
                         {
                             decisionHandler(.allow)
-                            if (toolbarView.isHidden) {
+                            if (toolbarView.isHidden && navigationAction.targetFrame?.isMainFrame ?? true) {
                                 toolbarView.isHidden = false
                                 webView.frame = calcWebviewFrame(webviewView: webviewView, toolbarView: toolbarView)
                             }
