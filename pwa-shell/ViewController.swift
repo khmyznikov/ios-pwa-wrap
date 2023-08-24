@@ -55,7 +55,14 @@ class ViewController: UIViewController, WKNavigationDelegate {
         PWAShell.webView.uiDelegate = self;
         
         PWAShell.webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
-        
+
+        if(pullToRefresh){
+            let refreshControl = UIRefreshControl()
+            refreshControl.addTarget(self, action: #selector(refreshWebView(_:)), for: UIControl.Event.valueChanged)
+            PWAShell.webView.scrollView.addSubview(refreshControl)
+            PWAShell.webView.scrollView.bounces = true
+        }
+
         if #available(iOS 15.0, *), adaptiveUIStyle {
             themeObservation = PWAShell.webView.observe(\.underPageBackgroundColor) { [unowned self] webView, _ in
                 currentWebViewTheme = PWAShell.webView.underPageBackgroundColor.isLight() ?? true ? .light : .dark
@@ -63,7 +70,12 @@ class ViewController: UIViewController, WKNavigationDelegate {
             }
         }
     }
-    
+
+    @objc func refreshWebView(_ sender: UIRefreshControl) {
+        PWAShell.webView?.reload()
+        sender.endRefreshing()
+    }
+
     func createToolbarView() -> UIToolbar{
         let winScene = UIApplication.shared.connectedScenes.first
         let windowScene = winScene as! UIWindowScene
