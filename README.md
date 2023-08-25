@@ -23,10 +23,22 @@ The [iOS part](https://github.com/pwa-builder/pwabuilder-ios) of [PWA Builder](h
 >- Go to Repo folder and do in terminal ``pod install``
 >- Open file **pwa-shell.xcworkspace**
 ## Generate Firebase keys
->- Go https://console.firebase.google.com/
+>- Go to https://console.firebase.google.com/
 >- Create new project
 >- Generate and download **GoogleService-Info.plist**
 >- Copy it to ``/pwa-shell`` folder
+## Generate APNS key
+>- Go to https://developer.apple.com/account
+>- Under "Certificates, IDs & Profiles", click on "Keys"
+>- Click "+"
+>- Give your key a name, and enable "Apple Push Notifications service (APNs)"
+>- Click continue, then register. Download the .p8 key file.
+## Upload the APNS key to firebase
+>- Go to https://console.firebase.google.com/
+>- Under your project, create an iOS app if you haven't already. Ensure the bundle ID is correct.
+>- Go to the iOS app settings
+>- Click on the "Cloud messaging" tab
+>- Under "Apple app configuration", upload your APNS key.
 ## Change to your website
 > This app was setup to my website just for example. You should change this settings to yours. Don't forget about **WKAppBoundDomains** in **Info.plist**
 # JS Features
