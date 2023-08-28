@@ -43,6 +43,11 @@ class ViewController: UIViewController, WKNavigationDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification , object: nil)
         
     }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        PWAShell.webView.frame = calcWebviewFrame(webviewView: webviewView, toolbarView: nil)
+    }
     
     @objc func keyboardWillHide(_ notification: NSNotification) {
         PWAShell.webView.setNeedsLayout()
