@@ -21,6 +21,8 @@ func createWebView(container: UIView, WKSMH: WKScriptMessageHandler, WKND: WKNav
     userContentController.add(WKSMH, name: "push-subscribe")
     userContentController.add(WKSMH, name: "push-permission-request")
     userContentController.add(WKSMH, name: "push-permission-state")
+    userContentController.add(WKSMH, name: "iap-purchase-request")
+    
     config.userContentController = userContentController
     
     if #available(iOS 14, *) {
@@ -52,6 +54,13 @@ func createWebView(container: UIView, WKSMH: WKScriptMessageHandler, WKND: WKNav
 
 
     webView.addObserver(NSO, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: NSKeyValueObservingOptions.new, context: nil)
+    
+    
+    #if DEBUG
+    if #available(iOS 16.4, *) {
+        webView.isInspectable = true
+    }
+    #endif
     
     return webView
 }
