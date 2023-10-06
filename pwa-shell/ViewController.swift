@@ -39,7 +39,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
         initWebView()
         initToolbarView()
         loadRootUrl()
-        StoreHelper.shared.start()
     
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification , object: nil)
         
@@ -244,17 +243,6 @@ extension ViewController: WKScriptMessageHandler {
         }
         if message.name == "push-permission-state" {
             handlePushState()
-        }
-        if message.name == "iap-purchase-request" {
-            StoreHelper.shared.purchase(productID: message.body as! String) { (success, error) in
-              if success {
-                  print("Purchase successful!")
-                  // handle successful purchase
-              } else if let error = error {
-                  print("Purchase failed: \(error.localizedDescription)")
-                  // handle failed purchase
-              }
-          }
         }
   }
 }
