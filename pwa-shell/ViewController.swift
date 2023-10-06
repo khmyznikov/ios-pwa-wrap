@@ -21,6 +21,8 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     var htmlIsLoaded = false;
     
+    var storeKitAPI: StoreKitAPI!
+    
     private var themeObservation: NSKeyValueObservation?
     var currentWebViewTheme: UIUserInterfaceStyle = .unspecified
     override var preferredStatusBarStyle : UIStatusBarStyle {
@@ -39,7 +41,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         initWebView()
         initToolbarView()
         loadRootUrl()
-        StoreHelper.shared.start()
+        storeKitAPI = StoreKitAPI.init()
     
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification , object: nil)
         
@@ -246,15 +248,16 @@ extension ViewController: WKScriptMessageHandler {
             handlePushState()
         }
         if message.name == "iap-purchase-request" {
-            StoreHelper.shared.purchase(productID: message.body as! String) { (success, error) in
-              if success {
-                  print("Purchase successful!")
-                  // handle successful purchase
-              } else if let error = error {
-                  print("Purchase failed: \(error.localizedDescription)")
-                  // handle failed purchase
-              }
-          }
+            Task {
+                do {
+                    try await storeKitAPI.purchaseProduct(productID: message.body as! String)
+                    returnPaymentResult(state: "success")
+                } catch StoreKitAPI.ProductError.productNotFound {
+                    returnPaymentResult(state: "notFound")
+                } catch {
+                    returnPaymentResult(state: "failed")
+                }
+            }
         }
   }
 }
