@@ -1,7 +1,21 @@
 {
   "identifier" : "C8BACD88",
   "nonRenewingSubscriptions" : [
-
+    {
+      "displayPrice" : "1.99",
+      "familyShareable" : false,
+      "internalID" : "54B0F6BC",
+      "localizations" : [
+        {
+          "description" : "Non Renewable",
+          "displayName" : "Demo Subscription",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "demo_subscription",
+      "referenceName" : "Demo Subscription",
+      "type" : "NonRenewingSubscription"
+    }
   ],
   "products" : [
     {
@@ -18,6 +32,21 @@
       "productID" : "demo_product_id",
       "referenceName" : "demoProduct",
       "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "1D266AB2",
+      "localizations" : [
+        {
+          "description" : "Non-Consumable",
+          "displayName" : "Demo Product 2",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "demo_product2_id",
+      "referenceName" : "demoProduct2",
+      "type" : "NonConsumable"
     }
   ],
   "settings" : {
@@ -73,7 +102,40 @@
     ]
   },
   "subscriptionGroups" : [
+    {
+      "id" : "2B48871D",
+      "localizations" : [
 
+      ],
+      "name" : "Default Group",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "0.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "65694AC5",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Renewable",
+              "displayName" : "Demo Subscription Auto",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "demo_subscription_auto",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Demo Subscription Auto",
+          "subscriptionGroupID" : "2B48871D",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
   ],
   "version" : {
     "major" : 3,
