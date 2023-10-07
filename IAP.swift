@@ -94,6 +94,7 @@ struct TransactionInfo: Codable {
         
        for await verificationResult in Transaction.currentEntitlements {
            let transaction = verificationResult.unsafePayloadValue
+           activeTransactions.insert(transaction)
            jsonRepresentation.append(String(data: transaction.jsonRepresentation, encoding: .utf8)!)
        }
 //        for await entitlement in StoreKit.Transaction.currentEntitlements {
@@ -105,7 +106,7 @@ struct TransactionInfo: Codable {
 //            }
 //        }
         
-//        self.activeTransactions = activeTransactions
+        self.activeTransactions = activeTransactions
         self.activeTransactionsJson = "[\(jsonRepresentation.joined(separator: ","))]"
        
         returnActiveTransactions(jsonString: self.activeTransactionsJson)
