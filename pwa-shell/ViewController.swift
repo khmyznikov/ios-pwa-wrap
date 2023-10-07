@@ -234,30 +234,43 @@ extension UIColor {
 }
 
 extension ViewController: WKScriptMessageHandler {
-  func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        if message.name == "print" {
-            printView(webView: PWAShell.webView)
-        }
-        if message.name == "push-subscribe" {
-            handleSubscribeTouch(message: message)
-        }
-        if message.name == "push-permission-request" {
-            handlePushPermission()
-        }
-        if message.name == "push-permission-state" {
-            handlePushState()
-        }
-        if message.name == "iap-purchase-request" {
-            Task {
-                do {
-                    try await storeKitAPI.purchaseProduct(productID: message.body as! String)
-                    returnPaymentResult(state: "success")
-                } catch StoreKitAPI.ProductError.productNotFound {
-                    returnPaymentResult(state: "notFound")
-                } catch {
-                    returnPaymentResult(state: "failed")
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        switch message.name {
+            case "print":
+                printView(webView: PWAShell.webView)
+            case "push-subscribe":
+                handleSubscribeTouch(message: message)
+            case "push-permission-request":
+                handlePushPermission()
+            case "push-permission-state":
+                handlePushState()
+            case "iap-products-request":
+                Task {
+                    do {
+                        await storeKitAPI.fetchProducts(productIDs: message.body as! [String])
+                    }
                 }
+            case "iap-purchase-request":
+                Task {
+                    do {
+                        try await storeKitAPI.purchaseProduct(productID: message.body as! String)
+                        returnPaymentResult(state: "success")
+                    } catch StoreKitAPI.ProductError.productNotFound {
+                        returnPaymentResult(state: "notFound")
+                    } catch StoreKitAPI.ProductError.userCanceled{
+                        returnPaymentResult(state: "canceled")
+                    } catch {
+                        returnPaymentResult(state: "failed")
+                    }
+                }
+            case "iap-transactions-request":
+                Task {
+                    do {
+                        await storeKitAPI.fetchActiveTransactions()
+                    }
+                }
+            default:
+                break
             }
-        }
-  }
+    }
 }
