@@ -254,13 +254,13 @@ extension ViewController: WKScriptMessageHandler {
                 Task {
                     do {
                         try await storeKitAPI.purchaseProduct(productID: message.body as! String)
-                        returnPaymentResult(state: "success")
+                        returnPurchaseResult(state: "success")
                     } catch StoreKitAPI.ProductError.productNotFound {
-                        returnPaymentResult(state: "notFound")
+                        returnPurchaseResult(state: "notFound")
                     } catch StoreKitAPI.ProductError.userCanceled{
-                        returnPaymentResult(state: "canceled")
+                        returnPurchaseResult(state: "canceled")
                     } catch {
-                        returnPaymentResult(state: "failed")
+                        returnPurchaseResult(state: "failed")
                     }
                 }
             case "iap-transactions-request":

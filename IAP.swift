@@ -13,13 +13,16 @@ struct TransactionInfo: Codable {
 }
 
 @MainActor final class StoreKitAPI: ObservableObject {
+   static let IntentsProducts = ["demo_subscription_auto"]
+    
    @Published private(set) var products: [Product] = []
    @Published private(set) var productsJson: String = "[]"
    @Published private(set) var activeTransactions: Set<StoreKit.Transaction> = []
    @Published private(set) var activeTransactionsJson: String = "[]"
    private var updates: Task<Void, Never>?
+   private var intents: Task<Void, Never>?
    
-   init() {
+    init() {
        updates = Task {
            for await update in StoreKit.Transaction.updates {
                if let transaction = try? update.payloadValue {
@@ -28,13 +31,18 @@ struct TransactionInfo: Codable {
                }
            }
        }
+        intents = Task {
+            await fetchProducts()
+            await listenToPurchaseIntents()
+        }
    }
 
    deinit {
        updates?.cancel()
+       intents?.cancel()
    }
 
-    func fetchProducts(productIDs: [String]) async {
+    func fetchProducts(productIDs: [String] = StoreKitAPI.IntentsProducts) async {
        do {
            self.products = try await Product.products(for: productIDs)
            
@@ -111,6 +119,17 @@ struct TransactionInfo: Codable {
        
         returnActiveTransactions(jsonString: self.activeTransactionsJson)
     }
+    
+    func listenToPurchaseIntents() async {
+        if #available(iOS 16.4, *) {
+            for await intent in PurchaseIntent.intents {
+                do {
+                    try await purchaseProduct(productID: intent.product.id)
+                }
+                catch {}
+            }
+        }
+    }
 }
 
 func returnProductsResult(jsonString: String){
@@ -119,7 +138,7 @@ func returnProductsResult(jsonString: String){
     })
 }
 
-func returnPaymentResult(state: String){
+func returnPurchaseResult(state: String){
     DispatchQueue.main.async(execute: {
         PWAShell.webView.evaluateJavaScript("this.dispatchEvent(new CustomEvent('iap-purchase-result', { detail: '\(state)' }))")
     })
