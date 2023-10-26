@@ -251,18 +251,36 @@ extension ViewController: WKScriptMessageHandler {
                     }
                 }
             case "iap-purchase-request":
-                Task {
-                    do {
-                        try await storeKitAPI.purchaseProduct(productID: message.body as! String)
-                        returnPurchaseResult(state: "success")
-                    } catch StoreKitAPI.ProductError.productNotFound {
-                        returnPurchaseResult(state: "notFound")
-                    } catch StoreKitAPI.ProductError.userCanceled{
-                        returnPurchaseResult(state: "canceled")
-                    } catch {
-                        returnPurchaseResult(state: "failed")
+            Task {
+                if let messageBody = message.body as? String {
+                    // Convert the message body to Data.
+                    if let data = messageBody.data(using: .utf8) {
+                        do {
+                            // Convert the data to a dictionary.
+                            if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                                // Extract and print the productID and quantity.
+                                if let productID = jsonObject["productID"] as? String {
+                                    let quantity = jsonObject["quantity"] as? Int ?? 1;
+                                    
+                                    do {
+                                        try await storeKitAPI.purchaseProduct(productID: productID, quantity: quantity)
+                                        returnPurchaseResult(state: "success")
+                                    } catch StoreKitAPI.ProductError.productNotFound {
+                                        returnPurchaseResult(state: "notFound")
+                                    } catch StoreKitAPI.ProductError.userCanceled{
+                                        returnPurchaseResult(state: "canceled")
+                                    } catch {
+                                        returnPurchaseResult(state: "failed")
+                                    }
+                                }
+                                else { returnPurchaseResult(state: "failed")  }
+                            }
+                        } catch {
+                            returnPurchaseResult(state: "failed")
+                        }
                     }
                 }
+            }
             case "iap-transactions-request":
                 Task {
                     do {

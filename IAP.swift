@@ -62,19 +62,23 @@ struct TransactionInfo: Codable {
        }
     }
    
-    func purchaseProduct(productID: String) async throws {
+    func purchaseProduct(productID: String, quantity: Int) async throws {
         guard let product = products.first(where: { $0.id == productID }) else {
             // Product not found.
             throw ProductError.productNotFound
         }
+        
+        let purchaseOption = Product.PurchaseOption.quantity(quantity)
+        let purchaseOptions: Set<Product.PurchaseOption> = [purchaseOption]
 
         do {
-           let result = try await product.purchase()
+            let result = try await product.purchase(options: purchaseOptions)
            switch result {
            case .success(let verificationResult):
                if let transaction = try? verificationResult.payloadValue {
                    self.activeTransactions.insert(transaction)
                    await transaction.finish()
+                   returnPurchaseTransaction(jsonString: String(data: transaction.jsonRepresentation, encoding: .utf8)!)
                }
            case .userCancelled:
                throw ProductError.userCanceled
@@ -99,23 +103,15 @@ struct TransactionInfo: Codable {
    func fetchActiveTransactions() async {
         var activeTransactions: Set<StoreKit.Transaction> = []
         var jsonRepresentation: [String] = []
-        
-       for await verificationResult in Transaction.currentEntitlements {
+       
+       for await verificationResult in Transaction.all {
            let transaction = verificationResult.unsafePayloadValue
            activeTransactions.insert(transaction)
            jsonRepresentation.append(String(data: transaction.jsonRepresentation, encoding: .utf8)!)
        }
-//        for await entitlement in StoreKit.Transaction.currentEntitlements {
-//            if let transaction = try? entitlement.payloadValue {
-//               activeTransactions.insert(transaction)
-//                if let jsonString = String(data: transaction.jsonRepresentation, encoding: .utf8) {
-//                    jsonRepresentation.append(jsonString)
-//                }
-//            }
-//        }
-        
-        self.activeTransactions = activeTransactions
-        self.activeTransactionsJson = "[\(jsonRepresentation.joined(separator: ","))]"
+       
+       self.activeTransactions = activeTransactions
+       self.activeTransactionsJson = "[\(jsonRepresentation.joined(separator: ","))]"
        
         returnActiveTransactions(jsonString: self.activeTransactionsJson)
     }
@@ -124,7 +120,7 @@ struct TransactionInfo: Codable {
         if #available(iOS 16.4, *) {
             for await intent in PurchaseIntent.intents {
                 do {
-                    try await purchaseProduct(productID: intent.product.id)
+                    try await purchaseProduct(productID: intent.product.id, quantity: 1)
                 }
                 catch {}
             }
@@ -141,6 +137,11 @@ func returnProductsResult(jsonString: String){
 func returnPurchaseResult(state: String){
     DispatchQueue.main.async(execute: {
         PWAShell.webView.evaluateJavaScript("this.dispatchEvent(new CustomEvent('iap-purchase-result', { detail: '\(state)' }))")
+    })
+}
+func returnPurchaseTransaction(jsonString: String){
+    DispatchQueue.main.async(execute: {
+        PWAShell.webView.evaluateJavaScript("this.dispatchEvent(new CustomEvent('iap-purchase-transaction', { detail: '\(jsonString)' }))")
     })
 }
 
