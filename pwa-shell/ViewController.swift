@@ -11,8 +11,13 @@ import WebKit
 
 var webView: WKWebView! = nil
 
-class ViewController: UIViewController, WKNavigationDelegate {
-
+class ViewController: UIViewController, WKNavigationDelegate, UIDocumentInteractionControllerDelegate {
+    
+    var documentController: UIDocumentInteractionController?
+    func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
+        return self
+    }
+    
     @IBOutlet weak var loadingView: UIView!
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var connectionProblemView: UIImageView!

@@ -184,6 +184,14 @@ extension ViewController: WKUIDelegate {
                         UIApplication.shared.open(requestUrl)
                     }
                 }
+                else {
+                    if requestUrl.isFileURL {
+                        downloadAndOpenFile(url: requestUrl.absoluteURL)
+                    }
+                    else if (requestUrl.absoluteString.contains("base64")){
+                        downloadAndOpenBase64File(base64String: requestUrl.absoluteString)
+                    }
+                }
             }
         }
         else {
@@ -300,5 +308,62 @@ extension ViewController: WKUIDelegate {
 
         // Display the NSAlert
         present(alert, animated: true, completion: nil)
+    }
+    
+    
+    func downloadAndOpenFile(url: URL){
+
+        let destinationFileUrl = url
+        let sessionConfig = URLSessionConfiguration.default
+        let session = URLSession(configuration: sessionConfig)
+        let request = URLRequest(url:url)
+        let task = session.downloadTask(with: request) { (tempLocalUrl, response, error) in
+            if let tempLocalUrl = tempLocalUrl, error == nil {
+                if let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                    print("Successfully download. Status code: \(statusCode)")
+                }
+                do {
+                    try FileManager.default.copyItem(at: tempLocalUrl, to: destinationFileUrl)
+                    self.openFile(url: destinationFileUrl)
+                } catch (let writeError) {
+                    print("Error creating a file \(destinationFileUrl) : \(writeError)")
+                }
+            } else {
+                print("Error took place while downloading a file. Error description: \(error?.localizedDescription ?? "N/A") ")
+            }
+        }
+        task.resume()
+    }
+
+    func downloadAndOpenBase64File(base64String: String) {
+        // Split the base64 string to extract the data and the file extension
+        let components = base64String.components(separatedBy: ";base64,")
+
+        // Make sure the base64 string has the correct format
+        guard components.count == 2, let format = components.first?.split(separator: "/").last else {
+            print("Invalid base64 string format")
+            return
+        }
+
+        // Remove the data type prefix to get the base64 data
+        let dataString = components.last!
+        
+        if let imageData = Data(base64Encoded: dataString) {
+            let documentsUrl: URL  =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let destinationFileUrl = documentsUrl.appendingPathComponent("image.\(format)")
+
+            do {
+                try imageData.write(to: destinationFileUrl)
+                self.openFile(url: destinationFileUrl)
+            } catch {
+                print("Error writing image to file url: \(destinationFileUrl): \(error)")
+            }
+        }
+    }
+
+    func openFile(url: URL) {
+        self.documentController = UIDocumentInteractionController(url: url)
+        self.documentController?.delegate = self
+        self.documentController?.presentPreview(animated: true)
     }
 }
