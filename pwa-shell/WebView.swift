@@ -35,7 +35,6 @@ func createWebView(container: UIView, WKSMH: WKScriptMessageHandler, WKND: WKNav
     config.preferences.setValue(true, forKey: "standalone")
     config.allowsInlineMediaPlayback = true
     
-    
     let webView = WKWebView(frame: calcWebviewFrame(webviewView: container, toolbarView: nil), configuration: config)
     
     setCustomCookie(webView: webView)
@@ -49,7 +48,6 @@ func createWebView(container: UIView, WKSMH: WKScriptMessageHandler, WKND: WKNav
     webView.scrollView.bounces = false
     webView.scrollView.contentInsetAdjustmentBehavior = .never
     webView.allowsBackForwardNavigationGestures = true
-
     
     webView.configuration.applicationNameForUserAgent = "Safari/604.1" // See https://github.com/pwa-builder/pwabuilder-ios/issues/30
     webView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 15_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.2 Mobile/15E148 Safari/604.1"
@@ -109,7 +107,7 @@ func calcWebviewFrame(webviewView: UIView, toolbarView: UIToolbar?) -> CGRect{
     }
 }
 
-extension ViewController: WKUIDelegate {
+extension ViewController: WKUIDelegate, WKDownloadDelegate {
     // redirect new tabs to main webview
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
         if (navigationAction.targetFrame == nil) {
@@ -178,20 +176,27 @@ extension ViewController: WKUIDelegate {
                     
                 }
             } else {
-                decisionHandler(.cancel)
-                if (navigationAction.request.url?.scheme == "tel" || navigationAction.request.url?.scheme == "mailto" ){
-                    if (UIApplication.shared.canOpenURL(requestUrl)) {
-                        UIApplication.shared.open(requestUrl)
-                    }
+                if navigationAction.request.url?.scheme == "blob" {
+                    decisionHandler(.download)
                 }
                 else {
-                    if requestUrl.isFileURL {
-                        downloadAndOpenFile(url: requestUrl.absoluteURL)
+                    decisionHandler(.cancel)
+                    if (navigationAction.request.url?.scheme == "tel" || navigationAction.request.url?.scheme == "mailto" ){
+                        if (UIApplication.shared.canOpenURL(requestUrl)) {
+                            UIApplication.shared.open(requestUrl)
+                        }
                     }
-                    else if (requestUrl.absoluteString.contains("base64")){
-                        downloadAndOpenBase64File(base64String: requestUrl.absoluteString)
+                    else {
+                        if requestUrl.isFileURL {
+                            // not tested
+                            downloadAndOpenFile(url: requestUrl.absoluteURL)
+                        }
+                        if (requestUrl.absoluteString.contains("base64")){
+                            downloadAndOpenBase64File(base64String: requestUrl.absoluteString)
+                        }
                     }
                 }
+                
             }
         }
         else {
@@ -310,7 +315,6 @@ extension ViewController: WKUIDelegate {
         present(alert, animated: true, completion: nil)
     }
     
-    
     func downloadAndOpenFile(url: URL){
 
         let destinationFileUrl = url
@@ -365,5 +369,20 @@ extension ViewController: WKUIDelegate {
         self.documentController = UIDocumentInteractionController(url: url)
         self.documentController?.delegate = self
         self.documentController?.presentPreview(animated: true)
+    }
+    
+    func webView(_ webView: WKWebView, navigationAction: WKNavigationAction, didBecome download: WKDownload) {
+        download.delegate = self
+    }
+    
+    func download(_ download: WKDownload, decideDestinationUsing response: URLResponse,
+                suggestedFilename: String,
+                completionHandler: @escaping (URL?) -> Void) {
+
+        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let fileURL = documentsPath.appendingPathComponent(suggestedFilename)
+        
+        self.openFile(url: fileURL)
+        completionHandler(fileURL)
     }
 }
