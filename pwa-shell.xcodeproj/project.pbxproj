@@ -117,6 +117,8 @@
 			dependencies = (
 			);
 			name = "pwa-shell";
+			packageProductDependencies = (
+			);
 			productName = "pwa-shell";
 			productReference = 59333BAA25CFF706003392A4 /* PWAShell.app */;
 			productType = "com.apple.product-type.application";
@@ -147,7 +149,6 @@
 			);
 			mainGroup = CD89F880237E9D9200C436A1;
 			packageReferences = (
-				59E8A9612ACEFE9600FF3934 /* XCRemoteSwiftPackageReference "StoreHelper" */,
 			);
 			productRefGroup = CD89F880237E9D9200C436A1;
 			projectDirPath = "";
@@ -383,7 +384,7 @@
 				CODE_SIGN_ENTITLEMENTS = "pwa-shell/Entitlements/Entitlements.plist";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RNZJ4NZTSX;
+				DEVELOPMENT_TEAM = J6VAMQLDT7;
 				INFOPLIST_FILE = "pwa-shell/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
@@ -411,7 +412,7 @@
 				CLANG_ENABLE_MODULES = NO;
 				CODE_SIGN_ENTITLEMENTS = "pwa-shell/Entitlements/Entitlements.plist";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RNZJ4NZTSX;
+				DEVELOPMENT_TEAM = J6VAMQLDT7;
 				INFOPLIST_FILE = "pwa-shell/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;

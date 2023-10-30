@@ -105,12 +105,11 @@
 	<true/>
 	<key>WKAppBoundDomains</key>
 	<array>
+		<string>khmyznikov.com</string>
+		<string>localhost</string>
 		<string>whatpwacando.today</string>
+		<string>whatwebcando.today</string>
 		<string>tomayac.github.io</string>
-		<string>login.live.com</string>
-		<string>account.live.com</string>
-		<string>login.microsoftonline.com</string>
-		<string>www.khmyznikov.com</string>
 	</array>
 </dict>
 </plist>

@@ -15,12 +15,12 @@ struct Cookie {
 
 let gcmMessageIDKey = "87336923954"
 
-let rootUrl = URL(string: "https://www.khmyznikov.com/ms-auth-test/")!
+let rootUrl = URL(string: "https://khmyznikov.com/ios-pwa-shell/")!
 
 // rootUrl should be in allowedOrigins. allowedOrigins + authOrigins <= 10 domains max.
 // All domains should be in WKAppBoundDomains list
-let allowedOrigins = [ "www.khmyznikov.com" ]
-let authOrigins = [ "login.microsoftonline.com", "login.live.com", "account.live.com", "tomayac.github.io", "whatpwacando.today"]
+let allowedOrigins = [ "khmyznikov.com", "localhost" ]
+let authOrigins = [ "tomayac.github.io", "whatpwacando.today"]
 
 
 let platformCookie = Cookie(name: "app-platform", value: "ios/ipados")
