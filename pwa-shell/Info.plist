@@ -28,7 +28,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>CFBundleURLName</key>
-			<string></string>
+			<string>com.pwa.shell</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>pwashell</string>

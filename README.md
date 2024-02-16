@@ -1,7 +1,9 @@
 # ios-pwa-wrap
-Makes possible of publishing PWA to Apple Store like TWA from Google. Supports work with push notifications from JS code, handle auth providers by redirect URL, handle external links, print page support, and loading animation. Firebase cloud messaging are used for Push Notifications.
+Makes possible of publishing PWA to Apple Store (works in EU) like TWA from Google. 
 
-Supports everything that can do Safari (like Location, Media, Share, Pay, and other Web APIs) and more (like Push, Print, and everything you added on top) with native callbacks.
+Supports work with push notifications from JS code, handle auth providers by redirect URL, handle external links, print page support, and loading animation. Firebase cloud messaging are used for Push Notifications.
+
+Supports most things you can do in Safari (like Location, Media, Share, Pay, and other Web APIs) and more (like Push, Print, and everything you added on top) with native callbacks.
 
 This project has grown from the internal development of [Hostme App](https://www.hostmeapp.com/).
 
@@ -31,6 +33,7 @@ The [iOS part](https://github.com/pwa-builder/pwabuilder-ios) of [PWA Builder](h
   
 >- Go to Repo folder and do in terminal ``pod install``
 >- Open file **pwa-shell.xcworkspace**
+>- xcode should support iOS15+
 ## Generate Firebase keys
 >- Go to https://console.firebase.google.com/
 >- Create new project
@@ -49,8 +52,17 @@ The [iOS part](https://github.com/pwa-builder/pwabuilder-ios) of [PWA Builder](h
 >- Click on the "Cloud messaging" tab
 >- Under "Apple app configuration", upload your APNS key.
 ## Change to your website
-> This app was setup to my website just for example. You should change this settings to yours. Don't forget about **WKAppBoundDomains** in **Info.plist**
+> This app was setup to my webapp just for example. You should change this settings to yours. 
+- **WKAppBoundDomains** in **Info.plist**
+- **Settings.swift**
+- *URL Types* at Info tab
+- *Associated Domains* at *Signing & Capabilities*
+- Adjust *Capabilities* at *Signing & Capabilities* (leave only required for your app)
+
+
+
 # JS Features
+## [Code samples you can find here](https://github.com/khmyznikov/ios-pwa-shell)
 ## Push permission request
 ```javascript
 if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers['push-permission-request']) {
@@ -137,6 +149,9 @@ printView = function() {
     window.print();
 }
 ```
+
+## Apple In-App Purchase
+[Take a look at this sample component](https://github.com/khmyznikov/ios-pwa-shell/blob/main/src/components/in-app-purchase.ts)
 
 # HTML Features
 ## Viewport

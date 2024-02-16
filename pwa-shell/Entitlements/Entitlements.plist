@@ -6,8 +6,8 @@
 	<string>production</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:www.khmyznikov.com</string>
-		<string>webcredentials:www.khmyznikov.com</string>
+		<string>applinks:khmyznikov.com</string>
+		<string>webcredentials:khmyznikov.com</string>
 	</array>
 	<key>com.apple.security.app-sandbox</key>
 	<true/>
