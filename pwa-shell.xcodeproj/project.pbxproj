@@ -17,6 +17,8 @@
 		595F23AD25CEFBFE0053416C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595F23A225CEFBFE0053416C /* AppDelegate.swift */; };
 		595F23AE25CEFBFE0053416C /* Printer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595F23A325CEFBFE0053416C /* Printer.swift */; };
 		595F23AF25CEFBFE0053416C /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595F23A425CEFBFE0053416C /* WebView.swift */; };
+		59E8A9672ACF01D800FF3934 /* IAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E8A9662ACF01D800FF3934 /* IAP.swift */; };
+		59E8A9692ACF084A00FF3934 /* pwaShellStore.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 59E8A9682ACF084A00FF3934 /* pwaShellStore.storekit */; };
 		CDC0FE292388222C002C8D56 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDC0FE252388222B002C8D56 /* Main.storyboard */; };
 		CDC0FE2A2388222C002C8D56 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDC0FE272388222B002C8D56 /* LaunchScreen.storyboard */; };
 		E1E260C850014D6B34B487B0 /* Pods_pwa_shell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE9D7FFB2FBE6EEBCA807B6A /* Pods_pwa_shell.framework */; };
@@ -36,6 +38,8 @@
 		595F23A225CEFBFE0053416C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "pwa-shell/AppDelegate.swift"; sourceTree = "<group>"; };
 		595F23A325CEFBFE0053416C /* Printer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Printer.swift; path = "pwa-shell/Printer.swift"; sourceTree = "<group>"; };
 		595F23A425CEFBFE0053416C /* WebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebView.swift; path = "pwa-shell/WebView.swift"; sourceTree = "<group>"; };
+		59E8A9662ACF01D800FF3934 /* IAP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = IAP.swift; path = "pwa-shell/IAP.swift"; sourceTree = "<group>"; };
+		59E8A9682ACF084A00FF3934 /* pwaShellStore.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = pwaShellStore.storekit; sourceTree = "<group>"; };
 		BE9D7FFB2FBE6EEBCA807B6A /* Pods_pwa_shell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pwa_shell.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEE8E5C625AE96C07F8AADED /* Pods-pwa-shell.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pwa-shell.debug.xcconfig"; path = "Target Support Files/Pods-pwa-shell/Pods-pwa-shell.debug.xcconfig"; sourceTree = "<group>"; };
 		CDC0FE262388222B002C8D56 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "pwa-shell/Base.lproj/Main.storyboard"; sourceTree = "<group>"; };
@@ -74,6 +78,8 @@
 		CD89F880237E9D9200C436A1 = {
 			isa = PBXGroup;
 			children = (
+				59E8A9662ACF01D800FF3934 /* IAP.swift */,
+				59E8A9682ACF084A00FF3934 /* pwaShellStore.storekit */,
 				595F23A225CEFBFE0053416C /* AppDelegate.swift */,
 				595F239C25CEFBFD0053416C /* Assets.xcassets */,
 				595F239B25CEFBFD0053416C /* Entitlements */,
@@ -111,6 +117,8 @@
 			dependencies = (
 			);
 			name = "pwa-shell";
+			packageProductDependencies = (
+			);
 			productName = "pwa-shell";
 			productReference = 59333BAA25CFF706003392A4 /* PWAShell.app */;
 			productType = "com.apple.product-type.application";
@@ -140,6 +148,8 @@
 				Base,
 			);
 			mainGroup = CD89F880237E9D9200C436A1;
+			packageReferences = (
+			);
 			productRefGroup = CD89F880237E9D9200C436A1;
 			projectDirPath = "";
 			projectRoot = "";
@@ -158,6 +168,7 @@
 				CDC0FE292388222C002C8D56 /* Main.storyboard in Resources */,
 				592A3F1725CFF93D0062B783 /* GoogleService-Info.plist in Resources */,
 				CDC0FE2A2388222C002C8D56 /* LaunchScreen.storyboard in Resources */,
+				59E8A9692ACF084A00FF3934 /* pwaShellStore.storekit in Resources */,
 				595F23A725CEFBFE0053416C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -217,6 +228,7 @@
 				595F23AE25CEFBFE0053416C /* Printer.swift in Sources */,
 				595F23AC25CEFBFE0053416C /* ViewController.swift in Sources */,
 				595F23AA25CEFBFE0053416C /* PushNotifications.swift in Sources */,
+				59E8A9672ACF01D800FF3934 /* IAP.swift in Sources */,
 				595F23AF25CEFBFE0053416C /* WebView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -294,7 +306,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -351,7 +363,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -372,9 +384,9 @@
 				CODE_SIGN_ENTITLEMENTS = "pwa-shell/Entitlements/Entitlements.plist";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RNZJ4NZTSX;
+				DEVELOPMENT_TEAM = J6VAMQLDT7;
 				INFOPLIST_FILE = "pwa-shell/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -400,9 +412,9 @@
 				CLANG_ENABLE_MODULES = NO;
 				CODE_SIGN_ENTITLEMENTS = "pwa-shell/Entitlements/Entitlements.plist";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RNZJ4NZTSX;
+				DEVELOPMENT_TEAM = J6VAMQLDT7;
 				INFOPLIST_FILE = "pwa-shell/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

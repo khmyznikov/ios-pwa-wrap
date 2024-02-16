@@ -11,8 +11,13 @@ import WebKit
 
 var webView: WKWebView! = nil
 
-class ViewController: UIViewController, WKNavigationDelegate {
-
+class ViewController: UIViewController, WKNavigationDelegate, UIDocumentInteractionControllerDelegate {
+    
+    var documentController: UIDocumentInteractionController?
+    func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
+        return self
+    }
+    
     @IBOutlet weak var loadingView: UIView!
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var connectionProblemView: UIImageView!
@@ -20,6 +25,8 @@ class ViewController: UIViewController, WKNavigationDelegate {
     var toolbarView: UIToolbar!
     
     var htmlIsLoaded = false;
+    
+    var storeKitAPI: StoreKitAPI!
     
     private var themeObservation: NSKeyValueObservation?
     var currentWebViewTheme: UIUserInterfaceStyle = .unspecified
@@ -39,6 +46,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         initWebView()
         initToolbarView()
         loadRootUrl()
+        storeKitAPI = StoreKitAPI.init()
     
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification , object: nil)
         
@@ -231,18 +239,61 @@ extension UIColor {
 }
 
 extension ViewController: WKScriptMessageHandler {
-  func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        if message.name == "print" {
-            printView(webView: PWAShell.webView)
-        }
-        if message.name == "push-subscribe" {
-            handleSubscribeTouch(message: message)
-        }
-        if message.name == "push-permission-request" {
-            handlePushPermission()
-        }
-        if message.name == "push-permission-state" {
-            handlePushState()
-        }
-  }
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        switch message.name {
+            case "print":
+                printView(webView: PWAShell.webView)
+            case "push-subscribe":
+                handleSubscribeTouch(message: message)
+            case "push-permission-request":
+                handlePushPermission()
+            case "push-permission-state":
+                handlePushState()
+            case "iap-products-request":
+                Task {
+                    do {
+                        await storeKitAPI.fetchProducts(productIDs: message.body as! [String])
+                    }
+                }
+            case "iap-purchase-request":
+            Task {
+                if let messageBody = message.body as? String {
+                    // Convert the message body to Data.
+                    if let data = messageBody.data(using: .utf8) {
+                        do {
+                            // Convert the data to a dictionary.
+                            if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                                // Extract and print the productID and quantity.
+                                if let productID = jsonObject["productID"] as? String {
+                                    let quantity = jsonObject["quantity"] as? Int ?? 1;
+                                    
+                                    do {
+                                        try await storeKitAPI.purchaseProduct(productID: productID, quantity: quantity)
+                                        returnPurchaseResult(state: "success")
+                                    } catch StoreKitAPI.ProductError.productNotFound {
+                                        returnPurchaseResult(state: "notFound")
+                                    } catch StoreKitAPI.ProductError.userCanceled{
+                                        returnPurchaseResult(state: "canceled")
+                                    } catch {
+                                        returnPurchaseResult(state: "failed")
+                                    }
+                                }
+                                else { returnPurchaseResult(state: "failed")  }
+                            }
+                        } catch {
+                            returnPurchaseResult(state: "failed")
+                        }
+                    }
+                }
+            }
+            case "iap-transactions-request":
+                Task {
+                    do {
+                        await storeKitAPI.fetchActiveTransactions()
+                    }
+                }
+            default:
+                break
+            }
+    }
 }

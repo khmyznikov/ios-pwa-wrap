@@ -21,6 +21,10 @@ func createWebView(container: UIView, WKSMH: WKScriptMessageHandler, WKND: WKNav
     userContentController.add(WKSMH, name: "push-subscribe")
     userContentController.add(WKSMH, name: "push-permission-request")
     userContentController.add(WKSMH, name: "push-permission-state")
+    userContentController.add(WKSMH, name: "iap-products-request")
+    userContentController.add(WKSMH, name: "iap-purchase-request")
+    userContentController.add(WKSMH, name: "iap-transactions-request")
+    
     config.userContentController = userContentController
     
     if #available(iOS 14, *) {
@@ -30,7 +34,6 @@ func createWebView(container: UIView, WKSMH: WKScriptMessageHandler, WKND: WKNav
     config.preferences.javaScriptCanOpenWindowsAutomatically = true
     config.preferences.setValue(true, forKey: "standalone")
     config.allowsInlineMediaPlayback = true
-    
     
     let webView = WKWebView(frame: calcWebviewFrame(webviewView: container, toolbarView: nil), configuration: config)
     
@@ -45,13 +48,19 @@ func createWebView(container: UIView, WKSMH: WKScriptMessageHandler, WKND: WKNav
     webView.scrollView.bounces = false
     webView.scrollView.contentInsetAdjustmentBehavior = .never
     webView.allowsBackForwardNavigationGestures = true
-
     
     webView.configuration.applicationNameForUserAgent = "Safari/604.1" // See https://github.com/pwa-builder/pwabuilder-ios/issues/30
     webView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 15_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.2 Mobile/15E148 Safari/604.1"
 
 
     webView.addObserver(NSO, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: NSKeyValueObservingOptions.new, context: nil)
+    
+    
+    #if DEBUG
+    if #available(iOS 16.4, *) {
+        webView.isInspectable = true
+    }
+    #endif
     
     return webView
 }
@@ -98,7 +107,7 @@ func calcWebviewFrame(webviewView: UIView, toolbarView: UIToolbar?) -> CGRect{
     }
 }
 
-extension ViewController: WKUIDelegate {
+extension ViewController: WKUIDelegate, WKDownloadDelegate {
     // redirect new tabs to main webview
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
         if (navigationAction.targetFrame == nil) {
@@ -167,12 +176,27 @@ extension ViewController: WKUIDelegate {
                     
                 }
             } else {
-                decisionHandler(.cancel)
-                if (navigationAction.request.url?.scheme == "tel" || navigationAction.request.url?.scheme == "mailto" ){
-                    if (UIApplication.shared.canOpenURL(requestUrl)) {
-                        UIApplication.shared.open(requestUrl)
+                if navigationAction.request.url?.scheme == "blob" {
+                    decisionHandler(.download)
+                }
+                else {
+                    decisionHandler(.cancel)
+                    if (navigationAction.request.url?.scheme == "tel" || navigationAction.request.url?.scheme == "mailto" ){
+                        if (UIApplication.shared.canOpenURL(requestUrl)) {
+                            UIApplication.shared.open(requestUrl)
+                        }
+                    }
+                    else {
+                        if requestUrl.isFileURL {
+                            // not tested
+                            downloadAndOpenFile(url: requestUrl.absoluteURL)
+                        }
+                        if (requestUrl.absoluteString.contains("base64")){
+                            downloadAndOpenBase64File(base64String: requestUrl.absoluteString)
+                        }
                     }
                 }
+                
             }
         }
         else {
@@ -289,5 +313,76 @@ extension ViewController: WKUIDelegate {
 
         // Display the NSAlert
         present(alert, animated: true, completion: nil)
+    }
+    
+    func downloadAndOpenFile(url: URL){
+
+        let destinationFileUrl = url
+        let sessionConfig = URLSessionConfiguration.default
+        let session = URLSession(configuration: sessionConfig)
+        let request = URLRequest(url:url)
+        let task = session.downloadTask(with: request) { (tempLocalUrl, response, error) in
+            if let tempLocalUrl = tempLocalUrl, error == nil {
+                if let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                    print("Successfully download. Status code: \(statusCode)")
+                }
+                do {
+                    try FileManager.default.copyItem(at: tempLocalUrl, to: destinationFileUrl)
+                    self.openFile(url: destinationFileUrl)
+                } catch (let writeError) {
+                    print("Error creating a file \(destinationFileUrl) : \(writeError)")
+                }
+            } else {
+                print("Error took place while downloading a file. Error description: \(error?.localizedDescription ?? "N/A") ")
+            }
+        }
+        task.resume()
+    }
+
+    func downloadAndOpenBase64File(base64String: String) {
+        // Split the base64 string to extract the data and the file extension
+        let components = base64String.components(separatedBy: ";base64,")
+
+        // Make sure the base64 string has the correct format
+        guard components.count == 2, let format = components.first?.split(separator: "/").last else {
+            print("Invalid base64 string format")
+            return
+        }
+
+        // Remove the data type prefix to get the base64 data
+        let dataString = components.last!
+        
+        if let imageData = Data(base64Encoded: dataString) {
+            let documentsUrl: URL  =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let destinationFileUrl = documentsUrl.appendingPathComponent("image.\(format)")
+
+            do {
+                try imageData.write(to: destinationFileUrl)
+                self.openFile(url: destinationFileUrl)
+            } catch {
+                print("Error writing image to file url: \(destinationFileUrl): \(error)")
+            }
+        }
+    }
+
+    func openFile(url: URL) {
+        self.documentController = UIDocumentInteractionController(url: url)
+        self.documentController?.delegate = self
+        self.documentController?.presentPreview(animated: true)
+    }
+    
+    func webView(_ webView: WKWebView, navigationAction: WKNavigationAction, didBecome download: WKDownload) {
+        download.delegate = self
+    }
+    
+    func download(_ download: WKDownload, decideDestinationUsing response: URLResponse,
+                suggestedFilename: String,
+                completionHandler: @escaping (URL?) -> Void) {
+
+        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let fileURL = documentsPath.appendingPathComponent(suggestedFilename)
+        
+        self.openFile(url: fileURL)
+        completionHandler(fileURL)
     }
 }

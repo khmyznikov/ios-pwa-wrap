@@ -20,6 +20,15 @@ The [iOS part](https://github.com/pwa-builder/pwabuilder-ios) of [PWA Builder](h
 # Quick start
 ## Install Pods references
 >- Install **CocoaPods** to the system
+
+>  For **Apple M Silicon:** ([More options here](https://stackoverflow.com/questions/64901180/how-to-run-cocoapods-on-apple-silicon-m1))
+   ```
+   # Uninstall the local cocoapods gem
+   sudo gem uninstall cocoapods
+   # Reinstall cocoapods via Homebrew
+   brew install cocoapods
+   ```
+  
 >- Go to Repo folder and do in terminal ``pod install``
 >- Open file **pwa-shell.xcworkspace**
 ## Generate Firebase keys
