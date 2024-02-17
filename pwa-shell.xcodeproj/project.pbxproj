@@ -384,7 +384,7 @@
 				CODE_SIGN_ENTITLEMENTS = "pwa-shell/Entitlements/Entitlements.plist";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = J6VAMQLDT7;
+				DEVELOPMENT_TEAM = 4GQ6LUQ5AU;
 				INFOPLIST_FILE = "pwa-shell/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
@@ -393,7 +393,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.pwa.shell;
+				PRODUCT_BUNDLE_IDENTIFIER = com.khmyznikov.pwa;
 				PRODUCT_NAME = PWAShell;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTS_MACCATALYST = YES;
@@ -412,7 +412,7 @@
 				CLANG_ENABLE_MODULES = NO;
 				CODE_SIGN_ENTITLEMENTS = "pwa-shell/Entitlements/Entitlements.plist";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = J6VAMQLDT7;
+				DEVELOPMENT_TEAM = 4GQ6LUQ5AU;
 				INFOPLIST_FILE = "pwa-shell/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
@@ -421,7 +421,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.pwa.shell;
+				PRODUCT_BUNDLE_IDENTIFIER = com.khmyznikov.pwa;
 				PRODUCT_NAME = PWAShell;
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;

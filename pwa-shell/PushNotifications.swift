@@ -141,6 +141,33 @@ func handlePushState() {
     }
 }
 
+func checkViewAndEvaluate(event: String, detail: String) {
+    if (!PWAShell.webView.isHidden && !PWAShell.webView.isLoading ) {
+        DispatchQueue.main.async(execute: {
+            PWAShell.webView.evaluateJavaScript("this.dispatchEvent(new CustomEvent('\(event)', { detail: \(detail) }))")
+        })
+    }
+    else {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            checkViewAndEvaluate(event: event, detail: detail)
+        }
+    }
+}
+
+func handleFCMToken(){
+    DispatchQueue.main.async(execute: {
+        Messaging.messaging().token { token, error in
+            if let error = error {
+                print("Error fetching FCM registration token: \(error)")
+                checkViewAndEvaluate(event: "push-token", detail: "ERROR GET TOKEN")
+            } else if let token = token {
+                print("FCM registration token: \(token)")
+                checkViewAndEvaluate(event: "push-token", detail: token)
+            }
+        }
+    })
+}
+
 func sendPushToWebView(userInfo: [AnyHashable: Any]){
     var json = "";
     do {
@@ -150,17 +177,5 @@ func sendPushToWebView(userInfo: [AnyHashable: Any]){
         print("ERROR: userInfo parsing problem")
         return
     }
-    func checkViewAndEvaluate() {
-        if (!PWAShell.webView.isHidden && !PWAShell.webView.isLoading ) {
-            DispatchQueue.main.async(execute: {
-                PWAShell.webView.evaluateJavaScript("this.dispatchEvent(new CustomEvent('push-notification', { detail: \(json) }))")
-            })
-        }
-        else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                checkViewAndEvaluate()
-            }
-        }
-    }
-    checkViewAndEvaluate()
+    checkViewAndEvaluate(event: "push-notification", detail: json)
 }
