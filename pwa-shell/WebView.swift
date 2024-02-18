@@ -28,10 +28,7 @@ func createWebView(container: UIView, WKSMH: WKScriptMessageHandler, WKND: WKNav
     
     config.userContentController = userContentController
     
-    if #available(iOS 14, *) {
-        config.limitsNavigationsToAppBoundDomains = true
-        
-    }
+    config.limitsNavigationsToAppBoundDomains = true
     config.preferences.javaScriptCanOpenWindowsAutomatically = true
     config.preferences.setValue(true, forKey: "standalone")
     config.allowsInlineMediaPlayback = true
@@ -121,92 +118,78 @@ extension ViewController: WKUIDelegate, WKDownloadDelegate {
         if (navigationAction.request.url?.scheme == "about") {
             return decisionHandler(.allow)
         }
-        if (navigationAction.shouldPerformDownload) {
+        if (navigationAction.shouldPerformDownload || navigationAction.request.url?.scheme == "blob") {
             return decisionHandler(.download)
         }
-        
+
         if let requestUrl = navigationAction.request.url{
             if let requestHost = requestUrl.host {
-                if (allowedOrigins.contains{
-                    if (requestHost.range(of: $0) != nil) { return true }
-                    else { return false }
-                }) {
+                // NOTE: Match auth origin first, because host origin may be a subset of auth origin and may therefore always match
+                let matchingAuthOrigin = authOrigins.first(where: { requestHost.range(of: $0) != nil })
+                if (matchingAuthOrigin != nil) {
+                    decisionHandler(.allow)
+                    if (toolbarView.isHidden) {
+                        toolbarView.isHidden = false
+                        webView.frame = calcWebviewFrame(webviewView: webviewView, toolbarView: toolbarView)
+                    }
+                    return
+                }
+
+                let matchingHostOrigin = allowedOrigins.first(where: { requestHost.range(of: $0) != nil })
+                if (matchingHostOrigin != nil) {
                     // Open in main webview
                     decisionHandler(.allow)
                     if (!toolbarView.isHidden) {
                         toolbarView.isHidden = true
                         webView.frame = calcWebviewFrame(webviewView: webviewView, toolbarView: nil)
                     }
-                    
-                } else {
-                    if (authOrigins.contains{
-                            if (requestHost.range(of: $0) != nil) { return true }
-                            else { return false }
-                        })
-                        {
-                            decisionHandler(.allow)
-                            if (toolbarView.isHidden && navigationAction.targetFrame?.isMainFrame ?? true) {
-                                toolbarView.isHidden = false
-                                webView.frame = calcWebviewFrame(webviewView: webviewView, toolbarView: toolbarView)
-                            }
-                            return
-                    }
-                    else {
-                        if (navigationAction.navigationType == .other &&
-                            navigationAction.value(forKey: "syntheticClickType") as! Int == 0 &&
-                            (navigationAction.targetFrame != nil) &&
-                            // no error here, fake warning
-                            (navigationAction.sourceFrame != nil)
-                        ) {
-                            decisionHandler(.allow)
-                            return
-                        }
-                        else {
-                            decisionHandler(.cancel)
-                        }
-                    }
-                    
-
-                    if ["http", "https"].contains(requestUrl.scheme?.lowercased() ?? "") {
-                         // Can open with SFSafariViewController
-                         let safariViewController = SFSafariViewController(url: requestUrl)
-                         self.present(safariViewController, animated: true, completion: nil)
-                     } else {
-                         // Scheme is not supported or no scheme is given, use openURL
-                        if (UIApplication.shared.canOpenURL(requestUrl)) {
-                            UIApplication.shared.open(requestUrl)
-                        }
-                     }
-                    
+                    return
                 }
-            } else {
-                if (navigationAction.request.url?.scheme == "blob") { // || navigationAction.request.url?.scheme == "data"
-                    decisionHandler(.download)
+                if (navigationAction.navigationType == .other &&
+                    navigationAction.value(forKey: "syntheticClickType") as! Int == 0 &&
+                    (navigationAction.targetFrame != nil) &&
+                    // no error here, fake warning
+                    (navigationAction.sourceFrame != nil)
+                ) {
+                    decisionHandler(.allow)
+                    return
                 }
                 else {
                     decisionHandler(.cancel)
-                    if (navigationAction.request.url?.scheme == "tel" || navigationAction.request.url?.scheme == "mailto" ){
-                        if (UIApplication.shared.canOpenURL(requestUrl)) {
-                            UIApplication.shared.open(requestUrl)
-                        }
-                    }
-                    else {
-                        if requestUrl.isFileURL {
-                            // not tested
-                            downloadAndOpenFile(url: requestUrl.absoluteURL)
-                        }
-//                        if (requestUrl.absoluteString.contains("base64")){
-//                            downloadAndOpenBase64File(base64String: requestUrl.absoluteString)
-//                        }
+                }
+
+
+                if ["http", "https"].contains(requestUrl.scheme?.lowercased() ?? "") {
+                    // Can open with SFSafariViewController
+                    let safariViewController = SFSafariViewController(url: requestUrl)
+                    self.present(safariViewController, animated: true, completion: nil)
+                } else {
+                    // Scheme is not supported or no scheme is given, use openURL
+                    if (UIApplication.shared.canOpenURL(requestUrl)) {
+                        UIApplication.shared.open(requestUrl)
                     }
                 }
-                
+            } else {
+                decisionHandler(.cancel)
+                if (navigationAction.request.url?.scheme == "tel" || navigationAction.request.url?.scheme == "mailto" ){
+                    if (UIApplication.shared.canOpenURL(requestUrl)) {
+                        UIApplication.shared.open(requestUrl)
+                    }
+                }
+                else {
+                    if requestUrl.isFileURL {
+                        // not tested
+                        downloadAndOpenFile(url: requestUrl.absoluteURL)
+                    }
+                    // if (requestUrl.absoluteString.contains("base64")){
+                    //     downloadAndOpenBase64File(base64String: requestUrl.absoluteString)
+                    // }
+                }
             }
         }
         else {
             decisionHandler(.cancel)
         }
-        
     }
     // Handle javascript: `window.alert(message: String)`
     func webView(_ webView: WKWebView,
