@@ -162,7 +162,7 @@ func handleFCMToken(){
                 checkViewAndEvaluate(event: "push-token", detail: "ERROR GET TOKEN")
             } else if let token = token {
                 print("FCM registration token: \(token)")
-                checkViewAndEvaluate(event: "push-token", detail: token)
+                checkViewAndEvaluate(event: "push-token", detail: "'\(token)'")
             }
         }
     })

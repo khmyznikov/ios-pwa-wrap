@@ -121,6 +121,9 @@ extension ViewController: WKUIDelegate, WKDownloadDelegate {
         if (navigationAction.request.url?.scheme == "about") {
             return decisionHandler(.allow)
         }
+        if (navigationAction.shouldPerformDownload) {
+            return decisionHandler(.download)
+        }
         
         if let requestUrl = navigationAction.request.url{
             if let requestHost = requestUrl.host {
@@ -177,7 +180,7 @@ extension ViewController: WKUIDelegate, WKDownloadDelegate {
                     
                 }
             } else {
-                if navigationAction.request.url?.scheme == "blob" {
+                if (navigationAction.request.url?.scheme == "blob") { // || navigationAction.request.url?.scheme == "data"
                     decisionHandler(.download)
                 }
                 else {
@@ -192,9 +195,9 @@ extension ViewController: WKUIDelegate, WKDownloadDelegate {
                             // not tested
                             downloadAndOpenFile(url: requestUrl.absoluteURL)
                         }
-                        if (requestUrl.absoluteString.contains("base64")){
-                            downloadAndOpenBase64File(base64String: requestUrl.absoluteString)
-                        }
+//                        if (requestUrl.absoluteString.contains("base64")){
+//                            downloadAndOpenBase64File(base64String: requestUrl.absoluteString)
+//                        }
                     }
                 }
                 
@@ -340,31 +343,31 @@ extension ViewController: WKUIDelegate, WKDownloadDelegate {
         task.resume()
     }
 
-    func downloadAndOpenBase64File(base64String: String) {
-        // Split the base64 string to extract the data and the file extension
-        let components = base64String.components(separatedBy: ";base64,")
-
-        // Make sure the base64 string has the correct format
-        guard components.count == 2, let format = components.first?.split(separator: "/").last else {
-            print("Invalid base64 string format")
-            return
-        }
-
-        // Remove the data type prefix to get the base64 data
-        let dataString = components.last!
-        
-        if let imageData = Data(base64Encoded: dataString) {
-            let documentsUrl: URL  =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-            let destinationFileUrl = documentsUrl.appendingPathComponent("image.\(format)")
-
-            do {
-                try imageData.write(to: destinationFileUrl)
-                self.openFile(url: destinationFileUrl)
-            } catch {
-                print("Error writing image to file url: \(destinationFileUrl): \(error)")
-            }
-        }
-    }
+//    func downloadAndOpenBase64File(base64String: String) {
+//        // Split the base64 string to extract the data and the file extension
+//        let components = base64String.components(separatedBy: ";base64,")
+//
+//        // Make sure the base64 string has the correct format
+//        guard components.count == 2, let format = components.first?.split(separator: "/").last else {
+//            print("Invalid base64 string format")
+//            return
+//        }
+//
+//        // Remove the data type prefix to get the base64 data
+//        let dataString = components.last!
+//        
+//        if let imageData = Data(base64Encoded: dataString) {
+//            let documentsUrl: URL  =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+//            let destinationFileUrl = documentsUrl.appendingPathComponent("image.\(format)")
+//
+//            do {
+//                try imageData.write(to: destinationFileUrl)
+//                self.openFile(url: destinationFileUrl)
+//            } catch {
+//                print("Error writing image to file url: \(destinationFileUrl): \(error)")
+//            }
+//        }
+//    }
 
     func openFile(url: URL) {
         self.documentController = UIDocumentInteractionController(url: url)

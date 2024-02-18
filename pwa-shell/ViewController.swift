@@ -249,6 +249,8 @@ extension ViewController: WKScriptMessageHandler {
                 handlePushPermission()
             case "push-permission-state":
                 handlePushState()
+            case "push-token":
+                handleFCMToken()
             case "iap-products-request":
                 Task {
                     do {
