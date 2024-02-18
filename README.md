@@ -1,9 +1,13 @@
 # ios-pwa-wrap
+
+## [⚠️ Take a look at PWABuilder first ⚠️](https://docs.pwabuilder.com/#/builder/app-store?id=publishing-pwas-to-the-app-store)
+## This template is used in [PWABuilder](https://www.pwabuilder.com/) service, and you can get pre-generated customized project for your Web App from there.
+
 Makes possible of publishing PWA to Apple Store (works in EU) like TWA from Google. 
 
 Supports work with push notifications from JS code, handle auth providers by redirect URL, handle external links, print page support, and loading animation. Firebase cloud messaging are used for Push Notifications.
 
-Supports most things you can do in Safari (like Location, Media, Share, Pay, and other Web APIs) and more (like Push, Print, and everything you added on top) with native callbacks.
+Supports most things you can do in Safari (like Location, Media, Share, Pay, and other Web APIs) and more (like Push, Print, Download and everything you added on top) with native callbacks.
 
 This project has grown from the internal development of [Hostme App](https://www.hostmeapp.com/).
 
@@ -62,96 +66,16 @@ The [iOS part](https://github.com/pwa-builder/pwabuilder-ios) of [PWA Builder](h
 
 
 # JS Features
-## [Code samples you can find here](https://github.com/khmyznikov/ios-pwa-shell)
-## Push permission request
-```javascript
-if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers['push-permission-request']) {
-  window.iOSPushCapability = true;
-}
-pushPermissionRequest = function(){
-  if (window.iOSPushCapability)
-    window.webkit.messageHandlers['push-permission-request'].postMessage('push-permission-request');
-}
-window.addEventListener('push-permission-request', (message) => {
-  if (message && message.detail){
-    switch (message.detail) {
-      case 'granted':
-        // permission granted
-        break;
-      default:
-        // permission denied
-        break;
-    }
-  }
-});
-```
-## Push permission state
-```javascript
-pushPermissionState = function(){
-  window.webkit.messageHandlers['push-permission-state'].postMessage('push-permission-state');
-}
-window.addEventListener('push-permission-state', (message) => {
-  if (message && message.detail){
-    switch (message.detail) {
-      case 'notDetermined':
-        // permission not asked
-        break;
-      case 'denied':
-        // permission denied
-        break;
-      case 'authorized':
-      case 'ephemeral':
-      case 'provisional':
-        // permission granted
-        break;
-      case 'unknown':
-      default:
-        // something wrong
-        break;
-    }
-  }
-});
-```
-## Push notifications handle
-```javascript
-window.addEventListener('push-notification', (message) => {
-    if (message && message.detail) { 
-        console.log(message.detail);
-        if (message.detail.aps && message.detail.aps.alert)
-            alert(`${message.detail.aps.alert.title} ${message.detail.aps.alert.body}`);
-    }
-});
-```
-## Push topic subscribe
-```javascript
-if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers['push-subscribe']) {
-  window.iOSPushCapability = true;
-}
-mobilePushSubscribe = function(topic, eventValue, unsubscribe?) {
-  if (window.iOSPushCapability) {
-    window.webkit.messageHandlers['push-subscribe'].postMessage(JSON.stringify({
-      topic: pushTopic, // topic name to subscribe/unsubscribe
-      eventValue, // user object: name, email, id, etc.
-      unsubscribe // true/false
-    }));
-  }
-}
-```
-## Print page dialog
-```javascript
-if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.print) {
-  window.iOSPrintCapability = true;
-}
-printView = function() {
-  if (window.iOSPrintCapability)
-    window.webkit.messageHandlers.print.postMessage('print');
-  else
-    window.print();
-}
-```
+## [Example web app you can find here](https://github.com/khmyznikov/ios-pwa-shell)
+## Push events and permissions
+[push component sample](https://github.com/khmyznikov/ios-pwa-shell/blob/main/src/components/push.ts)
 
 ## Apple In-App Purchase
-[Take a look at this sample component](https://github.com/khmyznikov/ios-pwa-shell/blob/main/src/components/in-app-purchase.ts)
+[iap component sample](https://github.com/khmyznikov/ios-pwa-shell/blob/main/src/components/in-app-purchase.ts)
+
+## Print page, file download, alerts
+[common component sample](https://github.com/khmyznikov/ios-pwa-shell/blob/main/src/pages/app-home.ts)
+
 
 # HTML Features
 ## Viewport
