@@ -38,6 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //
         application.registerForRemoteNotifications()
 
+        // Set up HealthKit
+            HealthKitHandler.shared.setupHealthKit()
         // [END register_for_notifications]
         return true
       }
