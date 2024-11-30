@@ -294,6 +294,27 @@ extension ViewController: WKScriptMessageHandler {
                         await storeKitAPI.fetchActiveTransactions()
                     }
                 }
+              case "iap-set-uuid-request":
+                  Task {
+                      if let messageBody = message.body as? String {
+                          // Convert the message body to Data.
+                          if let data = messageBody.data(using: .utf8) {
+                              do {
+                                  // Convert the data to a dictionary.
+                                  if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                                      // Extract and print the productID and quantity.
+                                      if let userUUID = jsonObject["userUUID"] as? String {
+                                          do {
+                                              await storeKitAPI.listenToPurchaseIntents(userUUID: userUUID)
+                                          }
+                                      }
+                                  }
+                              }catch {
+                                  print("Error parse JSON or listenToPurchaseIntents: \(error)")
+                              }
+                          }
+                      }
+                  }
             default:
                 break
             }
