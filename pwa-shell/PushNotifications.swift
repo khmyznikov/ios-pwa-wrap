@@ -179,3 +179,15 @@ func sendPushToWebView(userInfo: [AnyHashable: Any]){
     }
     checkViewAndEvaluate(event: "push-notification", detail: json)
 }
+
+func sendPushClickToWebView(userInfo: [AnyHashable: Any]){
+    var json = "";
+    do {
+        let jsonData = try JSONSerialization.data(withJSONObject: userInfo)
+        json = String(data: jsonData, encoding: .utf8)!
+    } catch {
+        print("ERROR: userInfo parsing problem")
+        return
+    }
+    checkViewAndEvaluate(event: "push-notification-click", detail: json)
+}
