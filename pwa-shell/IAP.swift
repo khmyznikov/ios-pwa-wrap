@@ -32,10 +32,11 @@ struct TransactionInfo: Codable {
                 }
             }
         }
-        intents = Task {
-            await fetchProducts()
-            await listenToPurchaseIntents()
-        }
+        //fetchProducts and listenToPurchaseIntents execute when we receive the necessary data
+//        intents = Task {
+//            await fetchProducts()
+//            await listenToPurchaseIntents()
+//        }
     }
     
     deinit {
@@ -64,22 +65,33 @@ struct TransactionInfo: Codable {
         }
     }
     
-    func purchaseProduct(productID: String, quantity: Int) async throws {
+    func purchaseProduct(productID: String, quantity: Int, userUUID: String) async throws {
         guard let product = products.first(where: { $0.id == productID }) else {
             // Product not found.
             throw ProductError.productNotFound
         }
-        
-        let purchaseOption = Product.PurchaseOption.quantity(quantity)
-        let purchaseOptions: Set<Product.PurchaseOption> = [purchaseOption]
-        
+        // If an app account token was added as a purchase option when purchasing, this property will
+        // be the token provided. If no token was provided, this will be `nil`.
+        guard let appAccountToken = UUID(uuidString: userUUID) else {
+            throw ProductError.invalidUserUUID
+        }
+
+        let purchaseOptions: Set<Product.PurchaseOption> = [
+            .appAccountToken(appAccountToken),
+            .quantity(quantity)
+        ]
+
         do {
             let result = try await product.purchase(options: purchaseOptions)
             switch result {
             case .success(let verificationResult):
+                
                 if let transaction = try? verificationResult.payloadValue {
+                    print("verificationResult")
+                    print("appAccountToken: \(String(describing: transaction.appAccountToken))")
                     self.activeTransactions.insert(transaction)
                     await transaction.finish()
+                    
                     returnPurchaseTransaction(jsonString: String(data: transaction.jsonRepresentation, encoding: .utf8)!)
                 }
             case .userCancelled:
@@ -98,6 +110,7 @@ struct TransactionInfo: Codable {
     enum ProductError: Error {
         case productNotFound
         case userCanceled
+        case invalidUserUUID
         case pending
         case unknown
     }
@@ -119,13 +132,15 @@ struct TransactionInfo: Codable {
         returnActiveTransactions(jsonString: self.activeTransactionsJson)
     }
     
-    // https://developer.apple.com/documentation/storekit/in-app_purchase/testing_promoted_in-app_purchases
+    //https://developer.apple.com/documentation/storekit/in-app_purchase/testing_promoted_in-app_purchases
     // Not tested
-    func listenToPurchaseIntents() async {
+    func listenToPurchaseIntents(userUUID: String) async {
+        print("Start listenToPurchaseIntents")
         if #available(iOS 16.4, *) {
             for await intent in PurchaseIntent.intents {
                 do {
-                    try await purchaseProduct(productID: intent.product.id, quantity: 1)
+                    // userUUID: "00000000-0000-0000-0000-000000000000"
+                    try await purchaseProduct(productID: intent.product.id, quantity: 1, userUUID: userUUID)
                 }
                 catch {}
             }
