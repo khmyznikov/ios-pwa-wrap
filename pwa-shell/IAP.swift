@@ -132,7 +132,7 @@ struct TransactionInfo: Codable {
         returnActiveTransactions(jsonString: self.activeTransactionsJson)
     }
     
-    //https://developer.appl.com/documentation/storekit/in-app_purchase/testing_promoted_in-app_purchases
+    //https://developer.apple.com/documentation/storekit/in-app_purchase/testing_promoted_in-app_purchases
     // Not tested
     func listenToPurchaseIntents(userUUID: String) async {
         print("Start listenToPurchaseIntents")
