@@ -19,6 +19,7 @@
 		595F23AF25CEFBFE0053416C /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595F23A425CEFBFE0053416C /* WebView.swift */; };
 		59E8A9672ACF01D800FF3934 /* IAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E8A9662ACF01D800FF3934 /* IAP.swift */; };
 		59E8A9692ACF084A00FF3934 /* pwaShellStore.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 59E8A9682ACF084A00FF3934 /* pwaShellStore.storekit */; };
+		5CC7B0812CCE5612009B979A /* HealthKitHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC7B0802CCE5612009B979A /* HealthKitHandler.swift */; };
 		CDC0FE292388222C002C8D56 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDC0FE252388222B002C8D56 /* Main.storyboard */; };
 		CDC0FE2A2388222C002C8D56 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDC0FE272388222B002C8D56 /* LaunchScreen.storyboard */; };
 		E1E260C850014D6B34B487B0 /* Pods_pwa_shell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE9D7FFB2FBE6EEBCA807B6A /* Pods_pwa_shell.framework */; };
@@ -40,6 +41,7 @@
 		595F23A425CEFBFE0053416C /* WebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebView.swift; path = "pwa-shell/WebView.swift"; sourceTree = "<group>"; };
 		59E8A9662ACF01D800FF3934 /* IAP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = IAP.swift; path = "pwa-shell/IAP.swift"; sourceTree = "<group>"; };
 		59E8A9682ACF084A00FF3934 /* pwaShellStore.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = pwaShellStore.storekit; sourceTree = "<group>"; };
+		5CC7B0802CCE5612009B979A /* HealthKitHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitHandler.swift; sourceTree = "<group>"; };
 		BE9D7FFB2FBE6EEBCA807B6A /* Pods_pwa_shell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pwa_shell.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEE8E5C625AE96C07F8AADED /* Pods-pwa-shell.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pwa-shell.debug.xcconfig"; path = "Target Support Files/Pods-pwa-shell/Pods-pwa-shell.debug.xcconfig"; sourceTree = "<group>"; };
 		CDC0FE262388222B002C8D56 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "pwa-shell/Base.lproj/Main.storyboard"; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				595F239A25CEFBFD0053416C /* Settings.swift */,
 				595F23A125CEFBFE0053416C /* ViewController.swift */,
 				595F23A425CEFBFE0053416C /* WebView.swift */,
+				5CC7B0802CCE5612009B979A /* HealthKitHandler.swift */,
 				CDC0FE272388222B002C8D56 /* LaunchScreen.storyboard */,
 				CDC0FE252388222B002C8D56 /* Main.storyboard */,
 				30FCACC6A7BF53CD6D9CF6C0 /* Pods */,
@@ -222,6 +225,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5CC7B0812CCE5612009B979A /* HealthKitHandler.swift in Sources */,
 				595F23AD25CEFBFE0053416C /* AppDelegate.swift in Sources */,
 				595F23A825CEFBFE0053416C /* SceneDelegate.swift in Sources */,
 				595F23A525CEFBFE0053416C /* Settings.swift in Sources */,

@@ -25,7 +25,8 @@ class ViewController: UIViewController, WKNavigationDelegate, UIDocumentInteract
     var toolbarView: UIToolbar!
     
     var htmlIsLoaded = false;
-    
+    let healthKitHandler = HealthKitHandler.shared
+
     var storeKitAPI: StoreKitAPI!
     
     private var themeObservation: NSKeyValueObservation?
@@ -47,7 +48,8 @@ class ViewController: UIViewController, WKNavigationDelegate, UIDocumentInteract
         initToolbarView()
         loadRootUrl()
         storeKitAPI = StoreKitAPI.init()
-    
+        healthKitHandler.setupHealthKit()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification , object: nil)
         
     }
@@ -251,6 +253,10 @@ extension ViewController: WKScriptMessageHandler {
                 handlePushState()
             case "push-token":
                 handleFCMToken()
+            case "healthkit-permission-request":
+                healthKitHandler.handleHealthKitPermission(webView: PWAShell.webView)
+            case "healthkit-data-request":
+                healthKitHandler.handleHealthKitData(webView: PWAShell.webView)
             case "iap-products-request":
                 Task {
                     do {
