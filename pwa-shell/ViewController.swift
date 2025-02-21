@@ -254,9 +254,9 @@ extension ViewController: WKScriptMessageHandler {
             case "push-token":
                 handleFCMToken()
             case "healthkit-permission-request":
-            healthKitHandler.handleHealthKitPermission(webView: PWAShell.webView)
+                healthKitHandler.handleHealthKitPermission(webView: PWAShell.webView)
             case "healthkit-data-request":
-            healthKitHandler.handleHealthKitData(webView: PWAShell.webView)
+                healthKitHandler.handleHealthKitData(webView: PWAShell.webView)
             case "iap-products-request":
                 Task {
                     do {
